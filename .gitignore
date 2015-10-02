@@ -1,0 +1,11 @@
+Game/tools_thumbnail_cache.bin
+Game/tools_asset_info.bin
+*.vpcf_c
+*.vtex_c
+*.vxml_c
+*.vcss_c
+Game/maps/
+Game/panorama_debugger.cfg
+*.vmat_c
+*.vjs_c
+Game/network_measurement.txt
