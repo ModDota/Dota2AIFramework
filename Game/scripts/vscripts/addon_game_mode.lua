@@ -1,3 +1,7 @@
+--Libraries
+require( 'Libraries.Timers' )
+
+--Core files
 require( 'AIFramework' )
 require( 'AIWrapper' )
 

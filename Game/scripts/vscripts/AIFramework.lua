@@ -17,8 +17,7 @@ function AIFramework:Init()
 		b = 6
 	}
 
-	local ai1 = AIFramework:InitAI( 'sample_ai', 42 )
-	local ai2 = AIFramework:InitAI( 'sample_ai', 1 )
+	local ai1 = AIFramework:InitAI( 'sample_ai', DOTA_TEAM_GOODGUYS )
 end
 
 --Initialise an AI player
@@ -35,12 +34,26 @@ end
 --Load a sandboxed AI player
 function AIFramework:LoadAI( name, team )
 	--Define custom _G
-	local global = { 
-		print = _G.print,
-		DeepPrintTable = _G.DeepPrintTable,
-		AIWrapper = AIWrapper( team )
-	}
+	local global = clone( _G )
+	global.AIWrapper = AIWrapper( team )
+
+	local newEnt = clone(_G.CBaseEntity)
+	newEnt.SetAbsOrigin = function( self )
+		print('ILL EAGLE')
+	end
+
+	global.CBaseEntity = newEnt
 
 	--Load file in sandbox
-	return setfenv(loadfile('UserAI.sample_ai'), global)()
+	return setfenv(assert(loadfile('UserAI.sample_ai')), global)()
+end
+
+function clone( obj )
+	local new = {}
+
+	for k, v in pairs( obj ) do
+		new[k] = v
+	end
+
+	return new
 end
