@@ -50,13 +50,25 @@ function AIManager:PopulateAIGlobals( global, wrapper )
 	global.pairs = pairs
 	global.ipairs = ipairs
 	global.type = type
+	global.string = string
 
 	--Auxiliary includes
 	global.DeepPrintTable = DeepPrintTable
 	global.Timers = Timers
 	global.Vector = Vector
 
-	--Dota global functions
+	--Default Dota global functions
+	global.GetItemCost = GetItemCost
+	global.LoadKeyValues = LoadKeyValues
+	global.RandomFloat = RandomFloat
+	global.RandomInt = RandomInt
+	global.RandomVector = RandomVector
+	global.RotateOrientation = RotateOrientation
+	global.RotatePosition = RotatePosition
+	global.RotateQuaternionByAxisAngle = RotateQuaternionByAxisAngle
+	global.RotationDelta = RotationDelta
+
+	--Overriden Dota global functions
 	function global.AI_FindUnitsInRadius ( ... ) return wrapper:AI_FindUnitsInRadius( ... ) end
 	function global.AI_EntIndexToHScript ( ... ) return wrapper:AI_EntIndexToHScript( ... ) end
 

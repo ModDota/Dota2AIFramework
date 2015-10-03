@@ -32,7 +32,7 @@ function AI:Think()
 	--Try to set abs origin
 	if #units > 0 then
 		for _, unit in pairs( units ) do
-			print( unit )
+			--print( unit )
 		end
 	end
 
