@@ -36,7 +36,7 @@ function UnitSetup( unit, globalUnit, team )
 	--[[
 		unit:GetAbsOrigin()
 		Get the position of the unit.
-		
+
 		Modification: Return nil when unit is in fog of war.
 		Parameters: -
 	]]
@@ -46,5 +46,16 @@ function UnitSetup( unit, globalUnit, team )
 		else
 			return nil
 		end
+	end
+
+	--[[
+		unit:GetAbilityByIndex( index )
+		Retrieve an ability by index from the unit.
+		
+		Modification: -
+		Parameters: -
+	]]
+	function unit:GetAbilityByIndex( index )
+		return WrapAbility( globalUnit:GetAbilityByIndex( index ), team )
 	end
 end

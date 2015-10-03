@@ -5,6 +5,7 @@ require( 'Libraries.Timers' )
 require( 'AIFramework' )
 require( 'UnitWrapper' )
 require( 'AbilityWrapper' )
+require( 'AIEvents' )
 require( 'AIWrapper' )
 
 --Precache, not using this atm

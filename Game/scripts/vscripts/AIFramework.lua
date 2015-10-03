@@ -35,8 +35,9 @@ end
 --Load a sandboxed AI player
 function AIFramework:LoadAI( name, team )
 	--Define custom _G
-	local global = clone( _G )
+	local global = {}
 	global.AIWrapper = AIWrapper( team )
+	global.AIEvents = AIEvents( team )
 
 	--Populate global functions
 	global = AIFramework:PopulateAIGlobals( global, global.AIWrapper )
@@ -47,8 +48,30 @@ end
 
 --Make wrapper functions available globally to the AI
 function AIFramework:PopulateAIGlobals( global, wrapper )
-	--FindUnitsInRadius
+	--Lua defaults
+	global.math = math
+	global.table = table
+	global.bit = bit
+	global.print = print
+	global.pairs = pairs
+	global.ipairs = ipairs
+	global.type = type
+
+	--Auxiliary includes
+	global.DeepPrintTable = DeepPrintTable
+	global.Timers = Timers
+	global.Vector = Vector
+
+	--Dota global functions
 	function global.AI_FindUnitsInRadius ( ... ) return wrapper:AI_FindUnitsInRadius( ... ) end
+	function global.AI_EntIndexToHScript ( ... ) return wrapper:AI_EntIndexToHScript( ... ) end
+
+	--Copy over constants
+	for k, v in pairs( _G ) do
+		if type( v ) == 'string' or type( v ) == 'number' then
+			global[k] = v
+		end
+	end
 
 	return global
 end

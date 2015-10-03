@@ -7,7 +7,7 @@ LinkLuaModifier( 'modifier_dummy', 'LuaModifiers/modifier_dummy', LUA_MODIFIER_M
 --Class definition
 if AIWrapper == nil then
 	AIWrapper = class({ 
-		constructor = function( self, team, global ) 
+		constructor = function( self, team ) 
 			self.team = team
 		end
 	})
@@ -64,6 +64,13 @@ function AIWrapper:AI_EntIndexToHScript( ent_index )
 	if entity == nil then
 		return nil
 	else
-		--Wrap unit or ability
+		--Check if this is a unit or ability
+		if entity.GetAbilityName == nil then
+			--Unit
+			return WrapUnit( entity )
+		else
+			--Ability
+			return WrapAbility( entity )
+		end
 	end
 end

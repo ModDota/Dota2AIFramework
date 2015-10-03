@@ -12,6 +12,9 @@ function AI:Init( params )
 	--Save team
 	self.team = params.team
 
+	--Register event
+	AIEvents:RegisterEventListener( 'entity_hurt', function( event ) DeepPrintTable(event) end, self )
+
 	--Start thinker
 	Timers:CreateTimer( AI.Think, self )
 end
@@ -24,7 +27,7 @@ function AI:Think()
 	--Try to set abs origin
 	if #units > 0 then
 		for _, unit in pairs( units ) do
-			print( unit:GetAbsOrigin() )
+			
 		end
 	end
 
