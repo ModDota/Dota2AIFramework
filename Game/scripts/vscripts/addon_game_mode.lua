@@ -7,6 +7,7 @@ require( 'UnitWrapper' )
 require( 'AbilityWrapper' )
 require( 'AIEvents' )
 require( 'AIWrapper' )
+require( 'AIManager' )
 
 --Precache, not using this atm
 function Precache( context ) end

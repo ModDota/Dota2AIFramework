@@ -34,10 +34,8 @@ end
 ]]
 function AIWrapper:AI_FindUnitsInRadius( position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
 
-	--Add DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE to the flagFilter if it is not in
-	if bit.band( flagFilter, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE ) == 0 then
-		flagFilter = flagFilter + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE
-	end
+	--Add DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE to the flagFilter
+	flagFilter = bit.bor( flagFilter, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE )
 
 	--Do the search
 	local result = FindUnitsInRadius( self.team, position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )

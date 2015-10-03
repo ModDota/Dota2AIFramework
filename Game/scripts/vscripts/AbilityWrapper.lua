@@ -9,17 +9,16 @@ function WrapAbility( ability, team )
 		return ability.wrapped
 	end
 
-	--Wrap the unit
-	--Clone first to preserve any data stored on the unit (-should always be wrapped first so redundant?)
-	local a = clone( ability )
+	--Create facade ability
+	local a = {}
 
-	--Add functionality to the unit
+	--Add functionality to the ability
 	AbilitySetup( a, ability, team )
 
-	--Store the wrapped unit
+	--Store the wrapped ability
 	ability.wrapped = a
 
-	--Return the wrapped unit
+	--Return the wrapped ability
 	return a
 end
 

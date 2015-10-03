@@ -4,7 +4,7 @@
 
 --Determine if a unit is in a team's vision
 function InVision( unit, team )
-	return AIFramework.visionDummies[ team ]:CanEntityBeSeenByMyTeam( unit )
+	return AIManager.visionDummies[ team ]:CanEntityBeSeenByMyTeam( unit )
 end
 
 --Wrap a unit for a set team
@@ -14,9 +14,8 @@ function WrapUnit( unit, team )
 		return unit.wrapped
 	end
 
-	--Wrap the unit
-	--Clone first to preserve any data stored on the unit (-should always be wrapped first so redundant?)
-	local u = clone( unit )
+	--Create facade unit
+	local u = {}
 
 	--Add functionality to the unit
 	UnitSetup( u, unit, team )
