@@ -2,71 +2,51 @@
 	Dota 2 API Wrapper used to restrict access to functions by AI to keep the competition fair.
 ]]
 
+LinkLuaModifier( 'modifier_dummy', 'LuaModifiers/modifier_dummy', LUA_MODIFIER_MOTION_NONE )
+
 --Class definition
 if AIWrapper == nil then
 	AIWrapper = class({ 
 		constructor = function( self, team ) 
 			self.team = team
-
-			--TODO: make actual dummy that is out of the game
-			self.teamDummy = CreateUnitByName( 'npc_dota_thinker', Vector(0,0,0), false, nil, nil, team )
 		end
 	})
 end
 
---Private AIWrapper methods -TODO: Actually make private
 --=======================================================================================================================
-function InVision( unit )
-	--return self.teamDummy:CanEntityBeSeenByMyTeam( unit )
-	local bools = {true, false}
-	return bools[RandomInt(1,2)]
-end
-
-local function WrapUnit( unit )
-	--Check if we wrapped already
-	if unit.wrapped ~= nil then
-		return unit.wrapped
-	end
-
-	--Wrap the unit
-	--Clone first
-	local u = clone( unit )
-
-	-- Set unit definition - Starts empty
-	--=====================================================
-	--GetAbsOrigin() -- Modified to take fog into account
-	u.GetAbsOrigin = function( self )
-		if InVision( unit ) then
-			return unit:GetAbsOrigin()
-		else
-			return nil
-		end
-	end
-
-	--Store the wrapped unit
-	unit.wrapped = u
-
-	--Return the wrapped unit
-	return u
-end
-
-
-
---Overrides
+--AI-accessible functions
 --=======================================================================================================================
 
---Overridden FindUnitsInRadius
+--[[
+	AIWrapper:FindUnitsInRadius( Team, Position, CacheUnit, Radius, TeamFilter, TypeFilter, FlagFilter, Order, CanGrowCache )
+	Finds units in a radius with some parameters.
+
+	Modification: Can only find units visible by the AI's team.
+	Parameters:
+		* Team
+		* Position - The center of the circle to search in
+		* CacheUnit - The cache unit.
+		* Radius - The radius to search in
+		* TeamFilter - DOTA_UNIT_TARGET_TEAM_* filter.
+		* TypeFilter - DOTA_UNIT_TARGET_TYPE_* filter.
+		* FlagFilter - DOTA_UNIT_TARGET_FLAG_* filter.
+		* Order - The order to return results in.
+		* CanGrowCache - Can the search grow the cache.
+]]
 function AIWrapper:FindUnitsInRadius( team, position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
-	local result = FindUnitsInRadius( team, position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
 
-	--Wrap result
+	--Add DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE to the flagFilter if it is not in
+	if bit.band( flagFilter, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE ) == 0 then
+		flagFilter = flagFilter + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE
+	end
+
+	--Do the search
+	local result = FindUnitsInRadius( self.team, position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
+
+	--Wrap result units
 	for k, unit in pairs( result ) do
-		result[k] = WrapUnit( unit )
+		result[k] = WrapUnit( unit, self.team )
 	end
 
 	return result
-end
-
-function AIWrapper:Test()
-	return 'boo'
 end

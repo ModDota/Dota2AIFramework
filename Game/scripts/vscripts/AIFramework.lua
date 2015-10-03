@@ -11,11 +11,8 @@ end
 function AIFramework:Init()
 	print( 'Initialising AI framework.' )
 
-	--Define AI parameters
-	local aiParams = {
-		a = 3,
-		b = 6
-	}
+	--Make table to store vision dummies in
+	AIFramework.visionDummies = {}
 
 	local ai1 = AIFramework:InitAI( 'sample_ai', DOTA_TEAM_GOODGUYS )
 end
@@ -25,8 +22,12 @@ function AIFramework:InitAI( name, team )
 	--Load an AI
 	local ai = AIFramework:LoadAI( name, team )
 
+	--Make a dummy to use for visoin checks
+	AIFramework.visionDummies[ team ] = CreateUnitByName( 'npc_dota_thinker', Vector(0,0,0), false, nil, nil, team )
+	AIFramework.visionDummies[ team ]:AddNewModifier( nil, nil, 'modifier_dummy', {} ) --Apply the dummy modifier
+
 	--Initialise the loaded AI
-	ai:Init( aiParams )
+	ai:Init( { team = team } )
 
 	return ai
 end
@@ -36,13 +37,6 @@ function AIFramework:LoadAI( name, team )
 	--Define custom _G
 	local global = clone( _G )
 	global.AIWrapper = AIWrapper( team )
-
-	local newEnt = clone(_G.CBaseEntity)
-	newEnt.SetAbsOrigin = function( self )
-		print('ILL EAGLE')
-	end
-
-	global.CBaseEntity = newEnt
 
 	--Load file in sandbox
 	return setfenv(assert(loadfile('UserAI.sample_ai')), global)()
