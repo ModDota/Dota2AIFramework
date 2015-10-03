@@ -7,7 +7,7 @@ LinkLuaModifier( 'modifier_dummy', 'LuaModifiers/modifier_dummy', LUA_MODIFIER_M
 --Class definition
 if AIWrapper == nil then
 	AIWrapper = class({ 
-		constructor = function( self, team ) 
+		constructor = function( self, team, global ) 
 			self.team = team
 		end
 	})

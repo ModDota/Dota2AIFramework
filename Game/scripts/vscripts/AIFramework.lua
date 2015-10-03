@@ -38,8 +38,19 @@ function AIFramework:LoadAI( name, team )
 	local global = clone( _G )
 	global.AIWrapper = AIWrapper( team )
 
+	--Populate global functions
+	global = AIFramework:PopulateAIGlobals( global, global.AIWrapper )
+
 	--Load file in sandbox
 	return setfenv(assert(loadfile('UserAI.sample_ai')), global)()
+end
+
+--Make wrapper functions available globally
+function AIFramework:PopulateAIGlobals( global, wrapper )
+	--FindUnitsInRadius
+	function global.FindUnitsInRadius ( ... ) return wrapper:FindUnitsInRadius( ... ) end
+
+	return global
 end
 
 function clone( obj )
