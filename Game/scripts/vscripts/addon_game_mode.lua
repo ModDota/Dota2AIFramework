@@ -3,11 +3,13 @@ require( 'Libraries.Timers' )
 
 --Core files
 require( 'AIFramework' )
-require( 'UnitWrapper' )
-require( 'AbilityWrapper' )
-require( 'AIEvents' )
-require( 'AIWrapper' )
-require( 'AIManager' )
+
+--Include AI
+require( 'AI.AIManager' )
+require( 'AI.AIWrapper' )
+require( 'AI.AIEvents' )
+require( 'AI.UnitWrapper' )
+require( 'AI.AbilityWrapper' )
 
 --Precache, not using this atm
 function Precache( context ) end

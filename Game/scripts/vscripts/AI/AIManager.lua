@@ -29,7 +29,7 @@ function AIManager:LoadAI( name, team )
 	global = AIManager:PopulateAIGlobals( global, global.AIWrapper )
 
 	--Load file in sandbox
-	return setfenv(assert(loadfile('UserAI.sample_ai')), global)()
+	return setfenv(assert(loadfile('AI.UserAI.sample_ai')), global)()
 end
 
 --Make wrapper functions available globally to the AI
