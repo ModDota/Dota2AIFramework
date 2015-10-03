@@ -18,12 +18,11 @@ end
 --=======================================================================================================================
 
 --[[
-	AIWrapper:FindUnitsInRadius( Team, Position, CacheUnit, Radius, TeamFilter, TypeFilter, FlagFilter, Order, CanGrowCache )
+	AI_FindUnitsInRadius( Position, CacheUnit, Radius, TeamFilter, TypeFilter, FlagFilter, Order, CanGrowCache )
 	Finds units in a radius with some parameters.
 
 	Modification: Can only find units visible by the AI's team.
 	Parameters:
-		* Team
 		* Position - The center of the circle to search in
 		* CacheUnit - The cache unit.
 		* Radius - The radius to search in
@@ -33,7 +32,7 @@ end
 		* Order - The order to return results in.
 		* CanGrowCache - Can the search grow the cache.
 ]]
-function AIWrapper:FindUnitsInRadius( team, position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
+function AIWrapper:AI_FindUnitsInRadius( position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
 
 	--Add DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE to the flagFilter if it is not in
 	if bit.band( flagFilter, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE ) == 0 then
@@ -49,4 +48,22 @@ function AIWrapper:FindUnitsInRadius( team, position, cacheUnit, radius, teamFil
 	end
 
 	return result
+end
+
+--[[
+	AI_EntIndexToHScript( ent_index )
+	Return the entity by its entity index.
+
+	Modification: Returns wrapped units/abilities.
+	Parameters:
+		* ent_index - The entity index of a unit or ability.
+]]
+function AIWrapper:AI_EntIndexToHScript( ent_index )
+	local entity = EntIndexToHScript( ent_index )
+
+	if entity == nil then
+		return nil
+	else
+		--Wrap unit or ability
+	end
 end

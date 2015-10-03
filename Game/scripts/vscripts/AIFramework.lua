@@ -45,10 +45,10 @@ function AIFramework:LoadAI( name, team )
 	return setfenv(assert(loadfile('UserAI.sample_ai')), global)()
 end
 
---Make wrapper functions available globally
+--Make wrapper functions available globally to the AI
 function AIFramework:PopulateAIGlobals( global, wrapper )
 	--FindUnitsInRadius
-	function global.FindUnitsInRadius ( ... ) return wrapper:FindUnitsInRadius( ... ) end
+	function global.AI_FindUnitsInRadius ( ... ) return wrapper:AI_FindUnitsInRadius( ... ) end
 
 	return global
 end

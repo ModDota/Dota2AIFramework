@@ -18,7 +18,7 @@ end
 
 --AI think function
 function AI:Think()
-	local units = FindUnitsInRadius( self.team , Vector( 0, 0, 0 ), nil, -1, 
+	local units = AI_FindUnitsInRadius( Vector( 0, 0, 0 ), nil, -1, 
 			DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 
 	--Try to set abs origin
