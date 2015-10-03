@@ -1,6 +1,13 @@
 --[[
-	Unit wrapping functions.
+	Unit Wrapper.
+
+	This file contains the wrapper for dota 2 units. A facade is created to
+	provide only certain unit functionality to AI. 
+
+	Code: Perry
+	Date: October, 2015
 ]]
+
 
 --Determine if a unit is in a team's vision
 function InVision( unit, team )

@@ -1,6 +1,13 @@
 --[[
-	Dota 2 Event wrapper to be used by AI
+	AIEvents.
+
+	This file contains the event manager available to AI. It filters events so that
+	AIs will only get information that a human player would get.
+
+	Code: Perry
+	Date: October, 2015
 ]]
+
 
 --Class definition
 if AIEvents == nil then

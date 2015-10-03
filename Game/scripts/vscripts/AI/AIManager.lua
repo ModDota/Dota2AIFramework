@@ -1,3 +1,11 @@
+--[[
+	AI Manager.
+
+	Highest level AI module, used for setting up AI in the game.
+
+	Code: Perry
+	Date: October, 2015
+]]
 if AIManager == nil then
 	AIManager = class({})
 	AIManager.visionDummies = {}

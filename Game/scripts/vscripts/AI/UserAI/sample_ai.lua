@@ -1,5 +1,10 @@
 --[[
-	Sample AI used to test the AIFramework.
+	Sample AI
+
+	Sample AI to demonstrate and test the AI competition framework.
+
+	Code: Perry
+	Date: October, 2015
 ]]
 
 --Define AI object

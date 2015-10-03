@@ -1,5 +1,11 @@
 --[[
-	Ability wrapping functions.
+	Ability Wrapper.
+
+	This file contains the wrapper for dota 2 ability entities. A facade is created to
+	provide only certain ability functionality to AI. 
+
+	Code: Perry
+	Date: October, 2015
 ]]
 
 --Wrap an ability for a set team

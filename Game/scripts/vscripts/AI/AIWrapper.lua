@@ -1,6 +1,14 @@
 --[[
-	Dota 2 API Wrapper used to restrict access to functions by AI to keep the competition fair.
+	AI Wrapper.
+
+	This file contains the wrapper for dota 2 AI. The main purpose is to hide any normal
+	server-side functionality and provide the AI with a subset of that. Delegates wrapping
+	units and abilities to UnitWrapper and AbilityWrapper respectively.
+
+	Code: Perry
+	Date: October, 2015
 ]]
+
 
 LinkLuaModifier( 'modifier_dummy', 'LuaModifiers/modifier_dummy', LUA_MODIFIER_MOTION_NONE )
 

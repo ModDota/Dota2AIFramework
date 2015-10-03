@@ -1,6 +1,20 @@
 --[[
-	Some fancy comment block.
+	AI Competition framework.
+
+	This is the main class of the Dota 2 AI competition framework developed for the purpose of holding
+	AI competitions where AI players are presented with tasks in Dota 2 to accomplish as well as possible
+	without a human intervening.
+
+	Code: Perry
+	Date: October, 2015
 ]]
+
+--Include AI
+require( 'AI.AIManager' )
+require( 'AI.AIWrapper' )
+require( 'AI.AIEvents' )
+require( 'AI.UnitWrapper' )
+require( 'AI.AbilityWrapper' )
 
 --Class definition
 if AIFramework == nil then
