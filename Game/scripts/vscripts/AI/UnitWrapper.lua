@@ -8,7 +8,6 @@
 	Date: October, 2015
 ]]
 
-
 --Determine if a unit is in a team's vision
 function InVision( unit, team )
 	return AIManager.visionDummies[ team ]:CanEntityBeSeenByMyTeam( unit )
@@ -147,7 +146,7 @@ function UnitSetup( unit, globalUnit, team )
 		Parameters: -
 	]]
 	function unit:GetOwner()
-		return WrapUnit( globalUnit:GetOwner() )
+		return WrapUnit( globalUnit:GetOwner(), team )
 	end
 
 	--[[
@@ -158,7 +157,7 @@ function UnitSetup( unit, globalUnit, team )
 		Parameters: -
 	]]
 	function unit:GetOwnerEntity()
-		return WrapUnit( globalUnit:GetOwnerEntity() )
+		return WrapUnit( globalUnit:GetOwnerEntity(), team )
 	end
 
 	--[[

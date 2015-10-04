@@ -74,7 +74,7 @@ function AIWrapper:AI_EntIndexToHScript( ent_index )
 		--Check if this is a unit or ability
 		if entity.GetAbilityName == nil then
 			--Unit
-			return WrapUnit( entity )
+			return WrapUnit( entity, self.team )
 		else
 			--Ability
 			return WrapAbility( entity )

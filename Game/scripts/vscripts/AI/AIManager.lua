@@ -103,7 +103,7 @@ function AIManager:InitAllAI()
 		--Wrap heroes
 		local wrappedHeroes = {}
 		for _, hero in pairs( AIManager.aiHeroes[ team ] ) do
-			table.insert( wrappedHeroes, WrapUnit( hero ) )
+			table.insert( wrappedHeroes, WrapUnit( hero, team ) )
 		end
 
 		--Initialise AI
@@ -158,12 +158,14 @@ function AIManager:PopulateAIGlobals( global, wrapper )
 	global.ipairs = ipairs
 	global.type = type
 	global.string = string
+	global._G = global
 
 	--Auxiliary includes
 	global.DeepPrintTable = DeepPrintTable
 	global.Timers = Timers
 	global.Vector = Vector
 	global.Dynamic_Wrap = Dynamic_Wrap
+	global.Warning = Warning
 
 	--Default Dota global functions
 	global.GetItemCost = GetItemCost
