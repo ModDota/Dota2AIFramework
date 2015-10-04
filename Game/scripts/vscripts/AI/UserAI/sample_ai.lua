@@ -16,12 +16,15 @@ function AI:Init( params )
 
 	--Save team
 	self.team = params.team
+	self.heroes = params.heroes
 
 	--Register event
 	AIEvents:RegisterEventListener( 'entity_hurt', function( event ) DeepPrintTable(event) end, self )
 
 	--Start thinker
-	Timers:CreateTimer( AI.Think, self )
+	Timers:CreateTimer( function()
+		return self:Think()
+	end)
 end
 
 --AI think function

@@ -100,7 +100,7 @@ function AIWrapper:AI_MinimapEvent( entity, xCoord, yCoord, eventType, eventDura
 		MinimapEvent( self.team, entity, xCoord, yCoord, eventType, eventDuration )
 	else
 		--ILL EAGLE
-		Warning( string.format( 'AI %i tried to fire minimap event on entity in fog.', self.team ) )
+		Warning( string.format( 'AI %i tried to fire minimap event on entity in fog.\n', self.team ) )
 	end
 end
 
@@ -122,7 +122,7 @@ function AIWrapper:AI_ExecuteOrderFromTable( table )
 	--Verify if the unit belongs to the AI
 	local unit = EntIndexToHScript( table.UnitIndex )
 	if unit:GetTeamNumber() ~= self.team then
-		Warning( string.format( 'AI %i tried to execute order on illegal entity.', self.team ) )
+		Warning( string.format( 'AI %i tried to execute order on illegal entity.\n', self.team ) )
 		return
 	end
 
@@ -134,4 +134,25 @@ function AIWrapper:AI_ExecuteOrderFromTable( table )
 
 	--Execute order
 	ExecuteOrderFromTable( table )
+end
+
+--[[
+	AI_Say( player, message, teamOnly )
+	Make a player say something in chat.
+
+	Modification: Only works for players owned by the AI, uses player ID instead of player.
+	Parameters:
+		* playerID - The id of the player doing the talking.
+		* message - The message.
+		* teamOnly - Is the message in team chat or not (boolean).
+]]
+function AIWrapper:AI_Say( playerID, message, teamOnly )
+	local player = PlayerResource:GetPlayer( playerID )
+	local team = PlayerResource:GetTeam( playerID )
+
+	if team == self.team then
+		Say( player, message, teamOnly )
+	else
+		Warning( string.format( 'AI %i tried to AI_Say for another team.\n', self.team ) )
+	end
 end

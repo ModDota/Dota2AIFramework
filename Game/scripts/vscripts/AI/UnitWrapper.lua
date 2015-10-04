@@ -64,4 +64,15 @@ function UnitSetup( unit, globalUnit, team )
 	function unit:GetAbilityByIndex( index )
 		return WrapAbility( globalUnit:GetAbilityByIndex( index ), team )
 	end
+
+	--[[
+		unit:GetPlayerOwnerID()
+		Get the ID of the player owning this unit.
+
+		Modification: -
+		Parameters: -
+	]]
+	function unit:GetPlayerOwnerID()
+		return globalUnit:GetPlayerOwnerID()
+	end
 end
