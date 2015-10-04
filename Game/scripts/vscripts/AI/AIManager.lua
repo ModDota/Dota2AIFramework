@@ -6,10 +6,14 @@
 	Code: Perry
 	Date: October, 2015
 ]]
+
 if AIManager == nil then
 	AIManager = class({})
+else
+	AIManager:OnScriptReload()
 end
 
+--Initialise the AIManager
 function AIManager:Init()
 	ListenToGameEvent( 'player_connect', AIManager.OnPlayerConnect, self )
 	ListenToGameEvent( 'game_rules_state_change', AIManager.OnGameStateChange, self )
@@ -27,6 +31,20 @@ function AIManager:Init()
 	AIManager.heroesSpawned = 0
 end
 
+--script_reload handling
+function AIManager:OnScriptReload()
+	--Reload AI functions
+	for team, ai in pairs( AIManager.aiHandles ) do
+		local newAI = AIManager:LoadAI( 'sample_ai', team )
+		for k,v in pairs( newAI ) do
+			if type(v) == 'function' then
+				ai[k] = v
+			end
+		end
+	end
+end
+
+--A player has connected, if it's a fake client assign it to an AI that wants a player
 function AIManager:OnPlayerConnect( event )
 	--Handle player request
 	local request = table.remove( AIManager.playerRequests, 1 )
@@ -45,6 +63,7 @@ function AIManager:OnPlayerConnect( event )
 	table.insert( AIManager.aiPlayers[ request.team ], { pID = event.index, hero = request.hero } )
 end
 
+--Game state change handler
 function AIManager:OnGameStateChange( event )
 	local gameState = GameRules:State_Get()
 
@@ -53,7 +72,6 @@ function AIManager:OnGameStateChange( event )
 		for team, players in pairs( AIManager.aiPlayers ) do
 			for _,player in pairs( players ) do
 				--Precache the hero
-				print( player.hero )
 				PrecacheUnitByNameAsync( player.hero, function()
 					AIManager:PrecacheDone( player.pID, player.hero, team )
 				end, player.pID )
@@ -62,6 +80,7 @@ function AIManager:OnGameStateChange( event )
 	end
 end
 
+--The precache of a hero is done, spawn the hero for the player
 function AIManager:PrecacheDone( pID, heroName, team )
 	--Spawn the hero
 	local player = PlayerResource:GetPlayer( pID )
@@ -76,11 +95,19 @@ function AIManager:PrecacheDone( pID, heroName, team )
 	end
 end
 
+--Initialise all AI
 function AIManager:InitAllAI()
 	--Initialise all AI
 	print('Initialising AI')
 	for team, ai in pairs( AIManager.aiHandles ) do
-		ai:Init( { team = team, heroes = AIManager.aiHeroes[ team ] } )
+		--Wrap heroes
+		local wrappedHeroes = {}
+		for _, hero in pairs( AIManager.aiHeroes[ team ] ) do
+			table.insert( wrappedHeroes, WrapUnit( hero ) )
+		end
+
+		--Initialise AI
+		ai:Init( { team = team, heroes = wrappedHeroes } )
 	end
 end
 
@@ -135,6 +162,7 @@ function AIManager:PopulateAIGlobals( global, wrapper )
 	global.DeepPrintTable = DeepPrintTable
 	global.Timers = Timers
 	global.Vector = Vector
+	global.Dynamic_Wrap = Dynamic_Wrap
 
 	--Default Dota global functions
 	global.GetItemCost = GetItemCost
@@ -150,6 +178,9 @@ function AIManager:PopulateAIGlobals( global, wrapper )
 	--Overriden Dota global functions
 	function global.AI_FindUnitsInRadius ( ... ) return wrapper:AI_FindUnitsInRadius( ... ) end
 	function global.AI_EntIndexToHScript ( ... ) return wrapper:AI_EntIndexToHScript( ... ) end
+	function global.AI_MinimapEvent ( ... ) return wrapper:AI_MinimapEvent( ... ) end
+	function global.AI_ExecuteOrderFromTable ( ... ) return wrapper:AI_ExecuteOrderFromTable( ... ) end
+	function global.AI_Say ( ... ) return wrapper:AI_Say( ... ) end
 
 	--Copy over constants
 	for k, v in pairs( _G ) do
