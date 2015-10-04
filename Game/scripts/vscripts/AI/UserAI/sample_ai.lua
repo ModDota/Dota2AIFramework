@@ -7,6 +7,8 @@
 	Date: October, 2015
 ]]
 
+require('AI.AIUnitTests')
+
 --Define AI object
 local AI = {}
 
@@ -25,6 +27,8 @@ function AI:Init( params )
 	Timers:CreateTimer( function()
 		return self:Think()
 	end)
+
+	UnitTest( _G, self.heroes[1], self.heroes[1]:GetAbilityByIndex( 0 ) )
 end
 
 --AI think function

@@ -160,6 +160,13 @@ function AIManager:PopulateAIGlobals( global, wrapper )
 	global.string = string
 	global._G = global
 
+	--Enable the require function, but only for the sandboxed environment
+	global.require = function( filename )
+		local script = assert(loadfile( filename ))
+		setfenv( script, global )
+		script()
+	end
+
 	--Auxiliary includes
 	global.DeepPrintTable = DeepPrintTable
 	global.Timers = Timers

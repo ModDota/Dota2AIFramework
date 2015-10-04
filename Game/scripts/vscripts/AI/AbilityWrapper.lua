@@ -82,6 +82,17 @@ function AbilitySetup( ability, globalAbility, team )
 	end
 
 	--[[
+		ability:GetAbilityType()
+		Get the type of the ability.
+		
+		Modification: -
+		Parameters: -
+	]]
+	function ability:GetAbilityType()
+		return globalAbility:GetAbilityType()
+	end
+
+	--[[
 		ability:GetAbilityDamage()
 		Get the damage an ability does.
 		
