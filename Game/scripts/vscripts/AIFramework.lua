@@ -28,6 +28,25 @@ function AIFramework:Init()
 	--Make table to store vision dummies in
 	AIFramework.visionDummies = {}
 
-	local ai1 = AIManager:InitAI( 'sample_ai', DOTA_TEAM_GOODGUYS )
+	--local ai1 = AIManager:InitAI( 'sample_ai', DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
+
+	--GameRules:FinishCustomGameSetup()
+	GameRules:SetCustomGameTeamMaxPlayers( 1, 	1 )
+
+	Convars:SetInt( 'dota_auto_surrender_all_disconnected_timeout', 7200 )
+
+	AIManager:Init()
+
+	ListenToGameEvent( 'player_connect_full', Dynamic_Wrap( AIFramework, 'OnPlayerConnect' ), self )
 end
 
+function AIFramework:OnPlayerConnect( event )
+	PlayerResource:SetCustomTeamAssignment( event.index, 1 )
+
+	AIManager.numPlayers = AIManager.numPlayers + 1
+
+	Timers:CreateTimer( 2, function()
+		AIManager:AddAI( 'sample_ai', DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
+		AIManager:AddAI( 'sample_ai', DOTA_TEAM_BADGUYS, {'npc_dota_hero_dazzle', 'npc_dota_hero_jakiro'} )
+	end)
+end

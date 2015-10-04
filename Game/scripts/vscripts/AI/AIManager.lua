@@ -8,20 +8,99 @@
 ]]
 if AIManager == nil then
 	AIManager = class({})
+end
+
+function AIManager:Init()
+	ListenToGameEvent( 'player_connect', AIManager.OnPlayerConnect, self )
+	ListenToGameEvent( 'game_rules_state_change', AIManager.OnGameStateChange, self )
+
 	AIManager.visionDummies = {}
+	AIManager.numPlayers = 0
+
+	AIManager.aiHandles = {}
+
+	AIManager.playerRequests = {}
+	AIManager.aiPlayers = {}
+	AIManager.aiHeroes = {}
+
+	AIManager.heroesToSpawn = 0
+	AIManager.heroesSpawned = 0
+end
+
+function AIManager:OnPlayerConnect( event )
+	--Handle player request
+	local request = table.remove( AIManager.playerRequests, 1 )
+	PlayerResource:SetCustomTeamAssignment( event.index, request.team )
+
+	--Remember we have to spawn a hero for this player
+	AIManager.heroesToSpawn = AIManager.heroesToSpawn + 1
+
+	if AIManager.aiPlayers[ request.team ] == nil then 
+		AIManager.aiPlayers[ request.team ] = {} 
+
+		--Initialise array for heroes for this team too while we're at it
+		AIManager.aiHeroes[ request.team ] = {} 
+	end
+
+	table.insert( AIManager.aiPlayers[ request.team ], { pID = event.index, hero = request.hero } )
+end
+
+function AIManager:OnGameStateChange( event )
+	local gameState = GameRules:State_Get()
+
+	if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
+		--In hero selection, spawn the heroes for all AIs
+		for team, players in pairs( AIManager.aiPlayers ) do
+			for _,player in pairs( players ) do
+				--Precache the hero
+				print( player.hero )
+				PrecacheUnitByNameAsync( player.hero, function()
+					AIManager:PrecacheDone( player.pID, player.hero, team )
+				end, player.pID )
+			end
+		end
+	end
+end
+
+function AIManager:PrecacheDone( pID, heroName, team )
+	--Spawn the hero
+	local player = PlayerResource:GetPlayer( pID )
+	local hero = CreateHeroForPlayer( heroName, player )
+
+	table.insert( AIManager.aiHeroes[ team ], hero )
+
+	--Check if we're done spawning yet
+	AIManager.heroesSpawned = AIManager.heroesSpawned + 1
+	if AIManager.heroesSpawned == AIManager.heroesToSpawn then
+		AIManager:InitAllAI()
+	end
+end
+
+function AIManager:InitAllAI()
+	--Initialise all AI
+	print('Initialising AI')
+	for team, ai in pairs( AIManager.aiHandles ) do
+		ai:Init( { team = team, heroes = AIManager.aiHeroes[ team ] } )
+	end
 end
 
 --Initialise an AI player
-function AIManager:InitAI( name, team )
+function AIManager:AddAI( name, team, heroes )
 	--Load an AI
 	local ai = AIManager:LoadAI( name, team )
+	AIManager.aiHandles[ team ] = ai
 
 	--Make a dummy to use for visoin checks
 	AIManager.visionDummies[ team ] = CreateUnitByName( 'npc_dota_thinker', Vector(0,0,0), false, nil, nil, team )
 	AIManager.visionDummies[ team ]:AddNewModifier( nil, nil, 'modifier_dummy', {} ) --Apply the dummy modifier
 
-	--Initialise the loaded AI
-	ai:Init( { team = team } )
+	--Request heroes
+	for i, hero in ipairs( heroes ) do
+		table.insert( AIManager.playerRequests, { team = team, hero = hero } )
+	end
+
+	AIManager.numPlayers = AIManager.numPlayers + #heroes
+	SendToServerConsole( 'dota_create_fake_clients '..AIManager.numPlayers )
 
 	return ai
 end

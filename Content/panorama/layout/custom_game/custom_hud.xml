@@ -1,0 +1,15 @@
+<root>
+	<styles>
+	</styles>
+
+	<scripts>
+	</scripts>
+
+	<script>
+		$.Msg('HELLO');
+	</script>
+
+	<Panel class="CustomHUD" hittest="false">
+	</Panel>
+</root>
+
