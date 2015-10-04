@@ -11,12 +11,12 @@
 
 --Class definition
 if AIEvents == nil then
-	AIEvents = class({ 
-		constructor = function( self, team ) 
-			self.team = team
-			self.numHandlers = 0
-		end
-	})
+	AIEvents = class({})
+end
+
+--Constructor
+function AIEvents:constructor( team )
+	self.team = team
 end
 
 --Define event filters
