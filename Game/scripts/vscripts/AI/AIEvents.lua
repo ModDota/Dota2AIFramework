@@ -8,7 +8,6 @@
 	Date: October, 2015
 ]]
 
-
 --Class definition
 if AIEvents == nil then
 	AIEvents = class({})

@@ -138,6 +138,7 @@ function AIManager:LoadAI( name, team )
 	local global = {}
 	global.AIWrapper = AIWrapper( team )
 	global.AIEvents = AIEvents( team )
+	global.AIPlayerResource = AIPlayerResource( team )
 
 	--Populate global functions
 	global = AIManager:PopulateAIGlobals( global, global.AIWrapper )

@@ -13,6 +13,7 @@
 require( 'AI.AIManager' )
 require( 'AI.AIWrapper' )
 require( 'AI.AIEvents' )
+require( 'AI.AIPlayerResource' )
 require( 'AI.UnitWrapper' )
 require( 'AI.AbilityWrapper' )
 
