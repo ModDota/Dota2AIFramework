@@ -1,12 +1,13 @@
 <root>
-	<script>
-	</script>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/ai_info.js" />
+	</scripts>
 		
 	<Panel>
 		<!--<CustomUIElement type="HudTopBar"
 			layoutfile="file://{resources}/layout/custom_game/custom_top_bar.xml" />-->
-		<CustomUIElement type="Hud"
-			layoutfile="file://{resources}/layout/custom_game/custom_hud.xml" />
+		<CustomUIElement type="Hud"	layoutfile="file://{resources}/layout/custom_game/custom_hud.xml" />
+		<CustomUIElement type="GameSetup" layoutfile="file://{resources}/layout/custom_game/team_select.xml" />
 		<!--<CustomUIElement type="FlyoutScoreboard"
 			layoutfile="file://{resources}/layout/custom_game/multiteam_flyout_scoreboard.xml" />
 		<CustomUIElement type="GameSetup"			layoutfile="file://{resources}/layout/custom_game/team_select.xml" />

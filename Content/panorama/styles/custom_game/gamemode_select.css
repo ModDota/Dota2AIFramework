@@ -1,0 +1,74 @@
+.GameModeSelection {
+	width: 400px;
+	height: 300px;
+	background-color: #111;
+	margin-left: 100px;
+	margin-top: 100px;
+	flow-children: down;
+	padding: 5px 15px 15px 15px;
+}
+
+.TitleLabel {
+	font-size: 35px;
+}
+
+.SpawnAIButton {
+	width: 300px;
+	height: 50px;
+	horizontal-align: center;
+	vertical-align: bottom;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #ee0000 ), to( #bb0000 ) );
+	text-align: center;
+}
+
+.SpawnAIButton:hover {
+	box-shadow: #ff2222cc 0px 0px 4px 0px;
+	wash-color: #ff000044;
+}
+
+.SpawnAIButton:active {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #880000 ), to( #bb0000 ) );
+}
+
+.SpawnAIButton Label {
+	font-size: 30px;
+	margin-top: 3px;
+
+	horizontal-align: center;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	text-align: center;
+	vertical-align: center;
+	text-shadow: 2px 2px 4px 1.0 #000000;
+}
+
+.GameModeDropDown {
+	horizontal-align: center;
+	margin-top: 5px;
+	height: 50px;
+}
+
+.GameModeDropDown Label {
+	font-size: 25px;
+}
+
+.AISelection {
+	width: 400px;
+}
+
+.AISelectionLabel {
+	margin-top: 8px;
+	margin-left: 12px;
+	font-size: 22px;
+}
+
+.AIDropdownContainer {
+	margin-left: 10px;
+	margin-top: 40px;
+	flow-children: right;
+}
+
+.AIDropdown {
+	width: 170px;
+	margin-right: 10px;
+}

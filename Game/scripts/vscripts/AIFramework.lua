@@ -40,15 +40,17 @@ function AIFramework:Init()
 	AIManager:Init()
 
 	ListenToGameEvent( 'player_connect_full', Dynamic_Wrap( AIFramework, 'OnPlayerConnect' ), self )
+	CustomGameEventManager:RegisterListener( 'spawn_ai', function() self:SpawnAI() end )
 end
 
 function AIFramework:OnPlayerConnect( event )
 	PlayerResource:SetCustomTeamAssignment( event.index, 1 )
 
 	AIManager.numPlayers = AIManager.numPlayers + 1
+end
 
-	Timers:CreateTimer( 2, function()
-		AIManager:AddAI( 'sample_ai', DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
-		AIManager:AddAI( 'sample_ai', DOTA_TEAM_BADGUYS, {'npc_dota_hero_dazzle', 'npc_dota_hero_jakiro'} )
-	end)
+function AIFramework:SpawnAI( event )
+	--Add some AI
+	AIManager:AddAI( 'sample_ai', DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
+	AIManager:AddAI( 'sample_ai', DOTA_TEAM_BADGUYS, {'npc_dota_hero_dazzle', 'npc_dota_hero_jakiro'} )
 end
