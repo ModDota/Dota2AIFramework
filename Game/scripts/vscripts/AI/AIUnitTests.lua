@@ -5,7 +5,9 @@
 	Code: Perry
 	Date: October, 2015
 ]]
-function UnitTest( global, unit, ability )
+AIUnitTests = class({})
+
+function AIUnitTests:Run( global, unit, ability, aiPlayerRes )
 
 	local success = 0
 	local fail = 0
@@ -48,6 +50,7 @@ function UnitTest( global, unit, ability )
 		'GetTeamNumber',
 		'IsAlive',
 		'IsInVision',
+		'HasBuyback',
 		'GetAbilityByIndex',
 		'FindAbilityByName',
 		'GetClassname',
@@ -93,6 +96,40 @@ function UnitTest( global, unit, ability )
 		if ability[func] == nil then
 			fail = fail + 1
 			Warning('Ability function '..func..' not set in AI!')
+		else
+			success = success + 1
+		end
+	end
+
+	local playerResF = {
+		'GetAssists',
+		'GetConnectionState',
+		'GetDeaths',
+		'GetGold',
+		'GetKills',
+		'GetLastHits',
+		'GetDenies',
+		'GetLevel',
+		'GetNthCourierForTeam',
+		'GetNumCouriersForTeam',
+		'GetNthPlayerIDOnTeam',
+		'GetPlayerCount',
+		'GetPlayerCountForTeam',
+		'GetPlayerLoadedCompletely',
+		'GetPlayerName',
+		'GetReliableGold',
+		'GetSteamAccountID',
+		'GetTeam',
+		'GetTeamKills',
+		'GetTeamPlayerCount',
+		'GetUnreliableGold'
+	}
+
+	--Validate AIPlayerResource
+	for _,func in ipairs( playerResF ) do
+		if aiPlayerRes[func] == nil then
+			fail = fail + 1
+			Warning('AIPlayerResource function '..func..' not set in AI!')
 		else
 			success = success + 1
 		end

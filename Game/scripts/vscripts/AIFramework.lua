@@ -16,6 +16,7 @@ require( 'AI.AIEvents' )
 require( 'AI.AIPlayerResource' )
 require( 'AI.UnitWrapper' )
 require( 'AI.AbilityWrapper' )
+require( 'AI.AIUnitTests' )
 
 --Class definition
 if AIFramework == nil then

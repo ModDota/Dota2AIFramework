@@ -141,14 +141,16 @@ function AIManager:LoadAI( name, team )
 	global.AIPlayerResource = AIPlayerResource( team )
 
 	--Populate global functions
-	global = AIManager:PopulateAIGlobals( global, global.AIWrapper )
+	global = AIManager:PopulateAIGlobals( name, global, global.AIWrapper )
 
 	--Load file in sandbox
-	return setfenv(assert(loadfile('AI.UserAI.sample_ai')), global)()
+	local script = assert(loadfile('AI.UserAI.'..name..'.ai_init'))
+	setfenv( script, global )
+	return script()
 end
 
 --Make wrapper functions available globally to the AI
-function AIManager:PopulateAIGlobals( global, wrapper )
+function AIManager:PopulateAIGlobals( name, global, wrapper )
 	--Lua defaults
 	global.math = math
 	global.table = table
@@ -162,7 +164,8 @@ function AIManager:PopulateAIGlobals( global, wrapper )
 
 	--Enable the require function, but only for the sandboxed environment
 	global.require = function( filename )
-		local script = assert(loadfile( filename ))
+		--Only load from the AI folder
+		local script = assert(loadfile( 'AI.UserAI.'..name..'.'..filename ))
 		setfenv( script, global )
 		script()
 	end
@@ -173,6 +176,7 @@ function AIManager:PopulateAIGlobals( global, wrapper )
 	global.Vector = Vector
 	global.Dynamic_Wrap = Dynamic_Wrap
 	global.Warning = Warning
+	global.AIUnitTests = AIUnitTests
 
 	--Default Dota global functions
 	global.GetItemCost = GetItemCost

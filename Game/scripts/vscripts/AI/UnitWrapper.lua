@@ -53,6 +53,23 @@ function UnitSetup( unit, globalUnit, team )
 	end
 
 	--[[
+		unit:HasBuyback()
+		Return if the unit has buyback or not. Only for allies.
+
+		Modification:Does not exist in regular API.
+		Parameters: -
+	]]
+	function unit:HasBuyback()
+		if globalUnit:GetTeamNumber() == team then
+			local gold = globalUnit:GetGold() - globalUnit:GetDeathGoldCost()
+			local noScythe = globalUnit:IsBuybackDisabledByReapersScythe() == false
+			return ( gold >= globalUnit:GetBuybackCost() and noScythe )
+		else
+			return false
+		end
+	end
+
+	--[[
 		unit:GetAbsOrigin()
 		Get the position of the unit.
 
