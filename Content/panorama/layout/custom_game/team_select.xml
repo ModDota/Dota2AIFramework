@@ -7,6 +7,7 @@
 	</styles>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/team_select.js" />
+		<include src="file://{resources}/scripts/custom_game/ai_info.js" />
 	</scripts>
 
 	<script>
@@ -17,9 +18,30 @@
 		}
 
 		function OnSpawnAI() {
-			$.Msg('sending event');
-			GameEvents.SendCustomGameEventToServer( 'spawn_ai', { game_mode : selectedMode } );
+			GameEvents.SendCustomGameEventToServer( 'spawn_ai', 
+				{ 
+					game_mode : selectedMode, 
+					ai1 : $('#AIDropdown1').GetSelected().id,
+					ai2 : $('#AIDropdown2').GetSelected().id
+				} );
 		}
+
+		(function() {
+			var ai_info = GameUI.CustomUIConfig().AI_Info;
+
+			for ( var ai_name in ai_info ) {
+				var ai = ai_info[ ai_name ];
+				var label = $.CreatePanel( 'Label', $('#AIDropdown1'), ai_name );
+				var label2 = $.CreatePanel( 'Label', $('#AIDropdown2'), ai_name );
+				label.text = ai.name;
+				label2.text = ai.name;
+				$('#AIDropdown1').AddOption( label );
+				$('#AIDropdown2').AddOption( label2 );
+			}
+
+			$('#AIDropdown1').SetSelected( $('#AIDropdown1').FindDropDownMenuChild( 0 ) );
+			$('#AIDropdown2').SetSelected( $('#AIDropdown2').FindDropDownMenuChild( 0 ) );
+		})();
 	</script>
 
 	<Panel hittest="false" class="TeamSelect">
@@ -37,12 +59,10 @@
 			<Panel class='AISelection'>
 				<Label class='AISelectionLabel' text='AI 1                                   AI 2' />
 				<Panel class='AIDropdownContainer'>
-					<DropDown class='AIDropdown' >
-						<Label text="sample_ai" id="sample_ai"/>
+					<DropDown id='AIDropdown1' class='AIDropdown' >
 					</DropDown>
 
-					<DropDown class='AIDropdown' >
-						<Label text="sample_ai" id="ample_ai"/>
+					<DropDown id='AIDropdown2' class='AIDropdown' >
 					</DropDown>
 				</Panel>
 			</Panel>

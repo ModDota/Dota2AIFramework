@@ -33,14 +33,15 @@ function AIFramework:Init()
 	--local ai1 = AIManager:InitAI( 'sample_ai', DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
 
 	--GameRules:FinishCustomGameSetup()
-	GameRules:SetCustomGameTeamMaxPlayers( 1, 	1 )
+	GameRules:SetCustomGameTeamMaxPlayers( 1, 	5 )
 
 	Convars:SetInt( 'dota_auto_surrender_all_disconnected_timeout', 7200 )
+	SendToServerConsole( 'customgamesetup_set_auto_launch_delay 300' )
 
 	AIManager:Init()
 
 	ListenToGameEvent( 'player_connect_full', Dynamic_Wrap( AIFramework, 'OnPlayerConnect' ), self )
-	CustomGameEventManager:RegisterListener( 'spawn_ai', function() self:SpawnAI() end )
+	CustomGameEventManager:RegisterListener( 'spawn_ai', function(...) self:SpawnAI(...) end )
 end
 
 function AIFramework:OnPlayerConnect( event )
@@ -49,8 +50,8 @@ function AIFramework:OnPlayerConnect( event )
 	AIManager.numPlayers = AIManager.numPlayers + 1
 end
 
-function AIFramework:SpawnAI( event )
+function AIFramework:SpawnAI( source, args )
 	--Add some AI
-	AIManager:AddAI( 'sample_ai', DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
-	AIManager:AddAI( 'sample_ai', DOTA_TEAM_BADGUYS, {'npc_dota_hero_dazzle', 'npc_dota_hero_jakiro'} )
+	AIManager:AddAI( args.ai1, DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
+	AIManager:AddAI( args.ai2, DOTA_TEAM_BADGUYS, {'npc_dota_hero_dazzle', 'npc_dota_hero_jakiro'} )
 end
