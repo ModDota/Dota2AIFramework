@@ -88,15 +88,16 @@ function AIManager:PrecacheDone( pID, heroName, team )
 
 	table.insert( AIManager.aiHeroes[ team ], hero )
 
-	--Check if we're done spawning yet
+	--Do this from a higher level instead
+	--[[Check if we're done spawning yet
 	AIManager.heroesSpawned = AIManager.heroesSpawned + 1
 	if AIManager.heroesSpawned == AIManager.heroesToSpawn then
 		AIManager:InitAllAI()
-	end
+	end]]
 end
 
 --Initialise all AI
-function AIManager:InitAllAI()
+function AIManager:InitAllAI( gameMode )
 	--Initialise all AI
 	print('Initialising AI')
 	for team, ai in pairs( AIManager.aiHandles ) do
@@ -107,8 +108,29 @@ function AIManager:InitAllAI()
 		end
 
 		--Initialise AI
-		ai:Init( { team = team, heroes = wrappedHeroes } )
+		ai:Init( { team = team, heroes = wrappedHeroes, data = gameMode:GetExtraData( team ) } )
 	end
+end
+
+--Get all AI heroes
+function AIManager:GetAllAIHeroes()
+	return AIManager.aiHeroes
+end
+
+--Get all heroes belonging to an AI team
+function AIManager:GetAIHeroes( team )
+	return AIManager.aiHeroes[ team ]
+end
+
+--Get all heroes belonging to an AI team wrapped
+function AIManager:GetWrappedAIHeroes( team )
+	local wrappedHeroes = {}
+
+	for _, hero in pairs( AIManager.aiHeroes[ team ] ) do
+		table.insert( wrappedHeroes, WrapUnit( hero, team ) )
+	end
+
+	return wrappedHeroes
 end
 
 --Initialise an AI player

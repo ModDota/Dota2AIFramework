@@ -16,7 +16,18 @@ function AI:Init( params )
 
 	--Save team
 	self.team = params.team
-	self.heroes = params.heroes
+	self.hero = params.heroes[1]
+	self.data = params.data
+
+	--Set initial target
+	self.moveTargetI = 0
+	self.moveTarget = self.data.camps[1]
+
+	AI_ExecuteOrderFromTable({
+		UnitIndex = self.hero:GetEntityIndex(),
+		OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+		Position = self.moveTarget
+	})
 
 	--Register event
 	AIEvents:RegisterEventListener( 'entity_hurt', function( event ) DeepPrintTable(event) end, self )
@@ -28,48 +39,26 @@ function AI:Init( params )
 
 	self.state = 0
 
-	AIUnitTests:Run( _G, self.heroes[1], self.heroes[1]:GetAbilityByIndex( 0 ), AIPlayerResource )
+	--AIUnitTests:Run( _G, self.heroes[1], self.heroes[1]:GetAbilityByIndex( 0 ), AIPlayerResource )
 end
 
 --AI think function
 function AI:Think()
-	local units = AI_FindUnitsInRadius( Vector( 0, 0, 0 ), nil, -1, 
-			DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	--Check if we're at the move target yet
+	local distance = ( self.hero:GetAbsOrigin() - self.moveTarget ):Length2D()
+	if distance < 10 then
+		--Move to the next move target
+		self.moveTargetI = ( self.moveTargetI + 1 ) % #self.data.camps
+		self.moveTarget = self.data.camps[ self.moveTargetI + 1 ]
 
-	--calc avg position
-	local avg = Vector( 0, 0, 0 )
-	local n = 0
-	if #units > 0 then
-		for _, unit in pairs( units ) do
-			n = n + 1
-			avg = avg + unit:GetAbsOrigin()
-		end
+		AI_ExecuteOrderFromTable({
+			UnitIndex = self.hero:GetEntityIndex(),
+			OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
+			Position = self.moveTarget
+		})
 	end
 
-	avg = avg * (1/n)
-
-	for _, hero in pairs( self.heroes ) do
-		if self.state == 0 then
-			--Go to avg
-			AI_ExecuteOrderFromTable({
-				UnitIndex = hero:GetEntityIndex(),
-				OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
-				Position = avg + RandomVector( 100 )
-			})
-		else
-			--Go away from avg
-			local diff = (hero:GetAbsOrigin() - avg):Normalized()
-			AI_ExecuteOrderFromTable({
-				UnitIndex = hero:GetEntityIndex(),
-				OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION,
-				Position = hero:GetAbsOrigin() + diff * 500
-			})
-		end
-	end
-
-	self.state = ( self.state + 1 ) % 2
-
-	return 2
+	return 0.2
 end
 
 --Return the AI object <-- IMPORTANT

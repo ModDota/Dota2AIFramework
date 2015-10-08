@@ -18,6 +18,9 @@ require( 'AI.UnitWrapper' )
 require( 'AI.AbilityWrapper' )
 require( 'AI.AIUnitTests' )
 
+--Require game mode logic
+require( 'AIGameModes.BaseAIGameMode' )
+
 --Class definition
 if AIFramework == nil then
 	AIFramework = class({})
@@ -41,17 +44,73 @@ function AIFramework:Init()
 	AIManager:Init()
 
 	ListenToGameEvent( 'player_connect_full', Dynamic_Wrap( AIFramework, 'OnPlayerConnect' ), self )
+	ListenToGameEvent( 'game_rules_state_change', Dynamic_Wrap( AIFramework, 'OnGameStateChange' ), self )
 	CustomGameEventManager:RegisterListener( 'spawn_ai', function(...) self:SpawnAI(...) end )
 end
 
+--player_connect_full event handler
 function AIFramework:OnPlayerConnect( event )
 	PlayerResource:SetCustomTeamAssignment( event.index, 1 )
 
 	AIManager.numPlayers = AIManager.numPlayers + 1
 end
 
+--game_rules_state_changed event handler
+function AIFramework:OnGameStateChange( event )
+	local state = GameRules:State_Get()
+	if state == DOTA_GAMERULES_STATE_PRE_GAME then
+		self:OnGameLoaded()
+	end
+end
+
+--Called once the game gets to the PRE_GAME state
+function AIFramework:OnGameLoaded()
+	local t = 1
+	Timers:CreateTimer( 1, function()
+		if t < 4 then
+			--Count down
+			ShowCenterMessage( 4 - t, 1 )
+		else
+			ShowCenterMessage( 'Start!', 2 )
+			--Initialise Radiant AI
+			AIManager:InitAllAI( self.gameMode )
+
+			--Initialise gamemode
+			self.gameMode:OnGameStart( AIManager:GetAllAIHeroes() )
+
+			Tutorial:ForceGameStart()
+
+			return nil
+		end
+
+		t = t + 1
+		return 1
+	end)
+end
+
 function AIFramework:SpawnAI( source, args )
-	--Add some AI
-	AIManager:AddAI( args.ai1, DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
-	AIManager:AddAI( args.ai2, DOTA_TEAM_BADGUYS, {'npc_dota_hero_dazzle', 'npc_dota_hero_jakiro'} )
+	--Load gamemode
+	local gameMode = require( 'AIGameModes.'..args.game_mode )
+
+	--Load ai for the gamemode
+	local heroes = {}
+	if gameMode.FixedHeroes then
+		heroes = gameMode.Heroes
+	end
+
+	--Load in AI
+	AIManager:AddAI( args.ai1, DOTA_TEAM_GOODGUYS, heroes )
+	AIManager:AddAI( args.ai2, DOTA_TEAM_BADGUYS, heroes )
+
+	--Save gamemode for later
+	self.gameMode = gameMode
+end
+
+--Show a center message for some duration
+function ShowCenterMessage( msg, dur )
+	local centerMessage = {
+		message = msg,
+		duration = dur or 3
+	}
+	FireGameEvent( "show_center_message", centerMessage )
 end
