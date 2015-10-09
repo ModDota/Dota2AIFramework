@@ -39,7 +39,7 @@ function AI:Init( params )
 
 	self.state = 0
 
-	--AIUnitTests:Run( _G, self.heroes[1], self.heroes[1]:GetAbilityByIndex( 0 ), AIPlayerResource )
+	AIUnitTests:Run( _G, self.hero, self.hero:GetAbilityByIndex( 0 ), AIPlayerResource )
 end
 
 --AI think function

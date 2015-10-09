@@ -116,7 +116,7 @@ local FilterFunctions = {
 	['last_hit'] = function( params, team )
 		local hero = PlayerResource:GetSelectedHeroEntity( params.PlayerID )
 
-		if InVision( hero, team )
+		if InVision( hero, team ) then
 			return true
 		end
 
@@ -126,7 +126,7 @@ local FilterFunctions = {
 	['nommed_tree'] = function( params, team )
 		local hero = PlayerResource:GetSelectedHeroEntity( params.PlayerID )
 
-		if InVision( hero, team )
+		if InVision( hero, team ) then
 			return true
 		end
 
@@ -135,7 +135,7 @@ local FilterFunctions = {
 	['dota_rune_activated_server'] = function( params, team )
 		local hero = PlayerResource:GetSelectedHeroEntity( params.PlayerID )
 
-		if InVision( hero, team )
+		if InVision( hero, team ) then
 			return true
 		end
 
@@ -207,4 +207,64 @@ function AIEvents:RegisterEventListener( eventName, callback )
 			end
 		end)
 	end, self )
+end
+
+--Test if all events are there
+function AIEvents:UnitTest()
+	local events = {
+		'team_score',
+		'npc_spawned',
+		'entity_killed',
+		'entity_hurt',
+		'game_rules_state_change',
+		'dota_player_kill',
+		'dota_player_deny',
+		'dota_barracks_kill',
+		'dota_tower_kill',
+		'dota_roshan_kill',
+		'dota_courier_lost',
+		'dota_courier_respawned',
+		'dota_glyph_used',
+		'dota_super_creeps',
+		'dota_rune_pickup',
+		'dota_rune_spotted',
+		'dota_item_spotted',
+		'dota_item_picked_up',
+		'last_hit',
+		'player_reconnected',
+		'nommed_tree',
+		'dota_rune_activated_server',
+		'dota_player_gained_level',
+		'dota_player_pick_hero',
+		'dota_player_learned_ability',
+		'dota_player_used_ability',
+		'dota_player_killed',
+		'dota_item_purchased',
+		'dota_item_used',
+		'player_fullyjoined',
+		'dota_match_done',
+		'dota_hero_swap',
+		'show_center_message',
+		'player_chat'
+	}
+
+	local success = 0
+	local fail = 0
+
+	--Check if all events are there
+	for _,event in ipairs( events ) do
+		if FilterFunctions[event] == nil then
+			fail = fail + 1
+			Warning( string.format( 'Event %q missing from AI events!', event ) )
+		else
+			success = success + 1
+		end
+	end
+
+	if fail == 0 then
+		print( string.format('AI Event Unit test: (%i/%i) Success!', success, success ) )
+	else
+		Warning( string.format('AI Event Unit test: (%i/%i) Succeeded.\n', success, success + fail ) )
+	end
+
 end

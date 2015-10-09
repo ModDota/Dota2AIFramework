@@ -140,4 +140,6 @@ function AIUnitTests:Run( global, unit, ability, aiPlayerRes )
 	else
 		Warning( string.format('AI Unit test: (%i/%i) Succeeded.\n', success, success + fail ) )
 	end
+
+	AIEvents:UnitTest()
 end
