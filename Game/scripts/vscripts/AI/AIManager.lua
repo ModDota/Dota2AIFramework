@@ -173,6 +173,7 @@ end
 
 --Make wrapper functions available globally to the AI
 function AIManager:PopulateAIGlobals( name, global, wrapper )
+	
 	--Lua defaults
 	global.math = math
 	global.table = table
@@ -200,9 +201,13 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	global.Warning = Warning
 	global.AIUnitTests = AIUnitTests
 
+	--Enable the LoadKeyValues function but set the AI directory as root
+	global.LoadKeyValues = function( path )
+		return LoadKeyValues( 'scripts/vscripts/AI/UserAI/'..name..'/'..path )
+	end
+
 	--Default Dota global functions
 	global.GetItemCost = GetItemCost
-	global.LoadKeyValues = LoadKeyValues
 	global.RandomFloat = RandomFloat
 	global.RandomInt = RandomInt
 	global.RandomVector = RandomVector
