@@ -111,12 +111,12 @@ end
 	Modification: Only works for units of the AI, and the target entity is not in fog.
 	Parameters:
 		* table - The order table, contains the following parameters:
-			~ UnitIndex - The entity index of the unit the order is given to.
-			~ OrderType - The type of unit given.
-			~ TargetIndex - (OPTIONAL) The entity index of the target unit.
-			~ AbilityIndex - (OPTIONAL) The entity index of the target unit.
-			~ Position - (OPTIONAL) The (vector) position of the order.
-			~ Queue - (OPTIONAL) Queue the order or not (boolean).
+			+ UnitIndex - The entity index of the unit the order is given to.
+			+ OrderType - The type of unit given.
+			+ TargetIndex - (OPTIONAL) The entity index of the target unit.
+			+ AbilityIndex - (OPTIONAL) The entity index of the target unit.
+			+ Position - (OPTIONAL) The (vector) position of the order.
+			+ Queue - (OPTIONAL) Queue the order or not (boolean).
 ]]
 function AIWrapper:AI_ExecuteOrderFromTable( table )
 	--Verify if the unit belongs to the AI
