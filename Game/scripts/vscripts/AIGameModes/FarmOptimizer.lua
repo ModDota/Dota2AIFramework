@@ -35,6 +35,9 @@ function AIGameMode:OnGameStart( teamHeroes )
 	--Save the only hero on each team for later
 	self.team1Hero = teamHeroes[ DOTA_TEAM_GOODGUYS ][1]
 	self.team2Hero = teamHeroes[ DOTA_TEAM_BADGUYS ][1]
+
+	--Force the start of the game
+	Tutorial:ForceGameStart()
 end
 
 --Get extra data the AI can/needs to use for this challenge

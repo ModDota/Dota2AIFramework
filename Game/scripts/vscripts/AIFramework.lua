@@ -33,16 +33,16 @@ function AIFramework:Init()
 	--Make table to store vision dummies in
 	AIFramework.visionDummies = {}
 
-	--local ai1 = AIManager:InitAI( 'sample_ai', DOTA_TEAM_GOODGUYS, {'npc_dota_hero_sven'} )
-
 	--GameRules:FinishCustomGameSetup()
 	GameRules:SetCustomGameTeamMaxPlayers( 1, 	5 )
 
 	Convars:SetInt( 'dota_auto_surrender_all_disconnected_timeout', 7200 )
 	SendToServerConsole( 'customgamesetup_set_auto_launch_delay 300' )
 
+	--Initialise the AI manager
 	AIManager:Init()
 
+	--Register event listeners
 	ListenToGameEvent( 'player_connect_full', Dynamic_Wrap( AIFramework, 'OnPlayerConnect' ), self )
 	ListenToGameEvent( 'game_rules_state_change', Dynamic_Wrap( AIFramework, 'OnGameStateChange' ), self )
 	CustomGameEventManager:RegisterListener( 'spawn_ai', function(...) self:SpawnAI(...) end )
@@ -78,8 +78,6 @@ function AIFramework:OnGameLoaded()
 			--Initialise gamemode
 			self.gameMode:OnGameStart( AIManager:GetAllAIHeroes() )
 
-			Tutorial:ForceGameStart()
-
 			return nil
 		end
 
@@ -91,6 +89,9 @@ end
 function AIFramework:SpawnAI( source, args )
 	--Load gamemode
 	local gameMode = require( 'AIGameModes.'..args.game_mode )
+
+	--Set up the game mode
+	gameMode:Setup()
 
 	--Load ai for the gamemode
 	local heroes = {}

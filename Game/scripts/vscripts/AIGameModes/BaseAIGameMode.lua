@@ -35,9 +35,19 @@ function BaseAIGameMode:constructor()
 	return self
 end
 
+--Set up the gamemode before loading in
+function BaseAIGameMode:Setup() 
+	--Empty default
+end
+
 --Get extra data for the AI (like a description of the map) for a team
 function BaseAIGameMode:GetExtraData( team )
 	return {}
+end
+
+--Make a team win the game
+function BaseAIGameMode:SetTeamWin( team )
+	GameRules:SetGameWinner( team )
 end
 
 function BaseAIGameMode:InitHeroes( teamHeroes )

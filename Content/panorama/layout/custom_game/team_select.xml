@@ -52,8 +52,6 @@
 			<DropDown class='GameModeDropDown' id='GameModeDD' oninputsubmit='OnGameModeUpdate()'>
 				<Label text="Farm Optimizer" id="FarmOptimizer"/>
 				<Label text="1v1 Mid" id="1v1Mid"/>
-				<Label text="3v3" id="3v3"/>
-				<Label text="Last Hit Challenge" id="LastHit"/>
 			</DropDown>
 
 			<Panel class='AISelection'>

@@ -48,19 +48,22 @@ end
 function AIManager:OnPlayerConnect( event )
 	--Handle player request
 	local request = table.remove( AIManager.playerRequests, 1 )
-	PlayerResource:SetCustomTeamAssignment( event.index, request.team )
+	
+	if request ~= nil then
+		PlayerResource:SetCustomTeamAssignment( event.index, request.team )
 
-	--Remember we have to spawn a hero for this player
-	AIManager.heroesToSpawn = AIManager.heroesToSpawn + 1
+		--Remember we have to spawn a hero for this player
+		AIManager.heroesToSpawn = AIManager.heroesToSpawn + 1
 
-	if AIManager.aiPlayers[ request.team ] == nil then 
-		AIManager.aiPlayers[ request.team ] = {} 
+		if AIManager.aiPlayers[ request.team ] == nil then 
+			AIManager.aiPlayers[ request.team ] = {} 
 
-		--Initialise array for heroes for this team too while we're at it
-		AIManager.aiHeroes[ request.team ] = {} 
+			--Initialise array for heroes for this team too while we're at it
+			AIManager.aiHeroes[ request.team ] = {} 
+		end
+
+		table.insert( AIManager.aiPlayers[ request.team ], { pID = event.index, hero = request.hero } )
 	end
-
-	table.insert( AIManager.aiPlayers[ request.team ], { pID = event.index, hero = request.hero } )
 end
 
 --Game state change handler
