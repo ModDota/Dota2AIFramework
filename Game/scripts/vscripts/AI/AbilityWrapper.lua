@@ -82,6 +82,17 @@ function AbilitySetup( ability, globalAbility, team )
 	end
 
 	--[[
+		ability:GetAbilityName()
+		Get the name of the ability.
+		
+		Modification: -
+		Parameters: -
+	]]
+	function ability:GetAbilityName()
+		return globalAbility:GetAbilityName()
+	end
+
+	--[[
 		ability:GetAbilityType()
 		Get the type of the ability.
 		

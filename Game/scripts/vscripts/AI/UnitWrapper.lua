@@ -234,13 +234,29 @@ function UnitSetup( unit, globalUnit, team )
 		unit:FindAbilityByName( name )
 		Retrieve an ability by index from the unit.
 		
-		Modification: -
+		Modification: Only works if the unit is in vision and wraps result.
 		Parameters:
 			* name - The name of the ability to look up.
 	]]
 	function unit:FindAbilityByName( name )
 		if InVision( globalUnit, team ) then
 			return WrapAbility( globalUnit:FindAbilityByName( name ), team )
+		else
+			return nil
+		end
+	end
+
+	--[[
+		unit:GetItemInSlot( slot )
+		Retrieve an item by slot from the unit.
+		
+		Modification: Only works if the unit is in vision and wraps the result.
+		Parameters:
+			* name - The name of the ability to look up.
+	]]
+	function unit:GetItemInSlot( slot )
+		if InVision( globalUnit, team ) then
+			return WrapAbility( globalUnit:GetItemInSlot( slot ), team )
 		else
 			return nil
 		end
