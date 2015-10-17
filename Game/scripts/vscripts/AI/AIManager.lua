@@ -225,6 +225,8 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	function global.AI_MinimapEvent ( ... ) return wrapper:AI_MinimapEvent( ... ) end
 	function global.AI_ExecuteOrderFromTable ( ... ) return wrapper:AI_ExecuteOrderFromTable( ... ) end
 	function global.AI_Say ( ... ) return wrapper:AI_Say( ... ) end
+	function global.AI_GetGameTime ( ... ) return wrapper:AI_GetGameTime( ... ) end
+	function global.AI_Log ( ... ) return wrapper:AI_Log( ... ) end
 
 	--Copy over constants
 	for k, v in pairs( _G ) do

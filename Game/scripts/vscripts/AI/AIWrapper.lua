@@ -156,3 +156,28 @@ function AIWrapper:AI_Say( playerID, message, teamOnly )
 		Warning( string.format( 'AI %i tried to AI_Say for another team.\n', self.team ) )
 	end
 end
+
+--[[
+	AI_GetGameTime()
+	Get the current game time.
+
+	Modification: -
+	Parameters: -
+]]
+function AIWrapper:AI_GetGameTime()
+	return GameRules:GetGameTime()
+end
+
+--[[
+	AI_Log( message )
+	Log functionality for AI.
+
+	Modification: -
+	Parameters:
+		* message - The message to log
+]]
+function AIWrapper:AI_Log( message )
+	local time = GameRules:GetGameTime();
+
+	print( string.format( '%.2f | AI %i | %s', time, self.team, message ) )
+end

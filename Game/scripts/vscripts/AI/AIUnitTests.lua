@@ -17,6 +17,8 @@ function AIUnitTests:Run( global, unit, ability, aiPlayerRes )
 		'AI_MinimapEvent',
 		'AI_EntIndexToHScript',
 		'AI_Say',
+		'AI_GetGameTime',
+		'AI_Log',
 		'GetItemCost',
 		'LoadKeyValues',
 		'RandomFloat',
@@ -57,7 +59,8 @@ function AIUnitTests:Run( global, unit, ability, aiPlayerRes )
 		'GetEntityHandle',
 		'GetEntityIndex',
 		'GetName',
-		'GetPlayerOwnerID'
+		'GetPlayerOwnerID',
+		'GetItemInSlot'
 	}
 
 	--Validate unit
@@ -88,7 +91,8 @@ function AIUnitTests:Run( global, unit, ability, aiPlayerRes )
 		'GetClassname',
 		'GetEntityHandle',
 		'GetEntityIndex',
-		'GetName'
+		'GetName',
+		'GetAbilityName'
 	}
 
 	--Validate unit
