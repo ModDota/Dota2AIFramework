@@ -22,6 +22,7 @@ function AIManager:Init()
 	AIManager.numPlayers = 0
 
 	AIManager.aiHandles = {}
+	AIManager.aiNames = {}
 
 	AIManager.playerRequests = {}
 	AIManager.aiPlayers = {}
@@ -35,7 +36,7 @@ end
 function AIManager:OnScriptReload()
 	--Reload AI functions
 	for team, ai in pairs( AIManager.aiHandles ) do
-		local newAI = AIManager:LoadAI( 'sample_ai', team )
+		local newAI = AIManager:LoadAI( AIManager.aiNames[ team ], team )
 		for k,v in pairs( newAI ) do
 			if type(v) == 'function' then
 				ai[k] = v
@@ -90,13 +91,6 @@ function AIManager:PrecacheDone( pID, heroName, team )
 	local hero = CreateHeroForPlayer( heroName, player )
 
 	table.insert( AIManager.aiHeroes[ team ], hero )
-
-	--Do this from a higher level instead
-	--[[Check if we're done spawning yet
-	AIManager.heroesSpawned = AIManager.heroesSpawned + 1
-	if AIManager.heroesSpawned == AIManager.heroesToSpawn then
-		AIManager:InitAllAI()
-	end]]
 end
 
 --Initialise all AI
@@ -113,6 +107,16 @@ function AIManager:InitAllAI( gameMode )
 		--Initialise AI
 		ai:Init( { team = team, heroes = wrappedHeroes, data = gameMode:GetExtraData( team ) } )
 	end
+end
+
+--Attach AI to an existing unit
+function AIManager:AttachAI( aiName, unit )
+	--Load the ai
+	local team = unit:GetTeam()
+	local ai = AIManager:LoadAI( aiName, team )
+
+	--Initialise the AI with the unit
+	ai:Init( { team = team, unit = unit } )
 end
 
 --Get all AI heroes
@@ -141,6 +145,7 @@ function AIManager:AddAI( name, team, heroes )
 	--Load an AI
 	local ai = AIManager:LoadAI( name, team )
 	AIManager.aiHandles[ team ] = ai
+	AIManager.aiNames[ team ] = name
 
 	--Make a dummy to use for visoin checks
 	AIManager.visionDummies[ team ] = CreateUnitByName( 'npc_dota_thinker', Vector(0,0,0), false, nil, nil, team )
@@ -203,6 +208,7 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	global.Dynamic_Wrap = Dynamic_Wrap
 	global.Warning = Warning
 	global.AIUnitTests = AIUnitTests
+	global.class = class
 
 	--Enable the LoadKeyValues function but set the AI directory as root
 	global.LoadKeyValues = function( path )
