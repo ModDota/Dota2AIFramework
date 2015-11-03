@@ -12,7 +12,7 @@ local AI = {}
 
 --Initialisation function, called by the framework with parameters
 function AI:Init( params )
-	print( 'Sample AI: Hello world!' )
+	AI_Log( 'Sample AI: Hello world!' )
 
 	--Save team
 	self.team = params.team
@@ -26,7 +26,7 @@ function AI:Init( params )
 
 	self.state = 0
 
-	--AIUnitTests:Run( _G, self.hero, self.hero:GetAbilityByIndex( 0 ), AIPlayerResource )
+	AIUnitTests:Run( _G, self.hero, self.hero:GetAbilityByIndex( 0 ), AIPlayerResource )
 end
 
 --AI think function

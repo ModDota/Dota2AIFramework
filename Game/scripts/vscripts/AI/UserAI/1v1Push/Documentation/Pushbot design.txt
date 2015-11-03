@@ -1,0 +1,16 @@
+General description:
+The design for the 1v1 push bot is to try to push down the enemy tower as quickly as possible.
+The bot ignores the enemy hero and just autoattacks the creeps in the lane. 
+
+State-based design:
+When the bot's hero gets to a certain HP threshold it will return to base to regen and buy items.
+Once the hero's HP is full it will return back to lane. When a hero dies it will also go to its
+shopping state. Pushing contains another state machine to prevent tanking enemy creeps.
+
+A formal description of the statespace can be found in 'Pushbot statespace.png'
+
+State implementation:
+The buying state will be implemented by adding a decision tree in combination with a list of
+desired items, which the bot will just try to purchase one by one if it has the money. The
+attacking creeps or tower state also consists of a decision tree to determine what to do.
+The implementation of the other states is trivial.
