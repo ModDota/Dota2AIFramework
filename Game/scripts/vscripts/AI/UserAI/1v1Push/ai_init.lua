@@ -18,36 +18,47 @@ require( 'AIUtil' )
 function AI:Init( params )
 	AI_Log( 'Hello world!' )
 
-	print( params.team )
+	--Save params
+	self.team = params.team
+	self.hero = params.heroes[1]
+	self.heroIndex = self.hero:GetEntityIndex()
+	self.data = params.data
 
+	--Define some team-based parameters the AI needs
 	if params.team == DOTA_TEAM_GOODGUYS then
 		self.LANE_CENTER = Vector( -647, -287, 17 )
 		self.HIGH_GROUND_POS = Vector( -1041, -585, 128 )
 		self.NEAR_TOWER_POS = Vector( -1640, -1228, 128 )
+		self.FOUNTAIN_POS = Vector( -6817, -6347, 385 )
 	else
 		self.LANE_CENTER = Vector( -647, -287, 17 )
 		self.HIGH_GROUND_POS = Vector( -168, 85, 128 )
 		self.NEAR_TOWER_POS = Vector( 610, 386, 128 )
+		self.FOUNTAIN_POS = Vector( 6733, 6116, 385 )
 	end
 
-	--Save team
-	self.team = params.team
-	self.hero = params.heroes[1]
-	self.data = params.data
-
-	for k,v in pairs( self.data ) do
-		print( k, v )
-	end
+	--Register event listeners
+	AI:RegisterEventListeners()
 
 	--Start thinker
 	Timers:CreateTimer( function()
 		return self:Think()
 	end)
 
+	--Go to
 	self.mainStM = self:SetUpStateMachine()
-	self.mainStM:GotoState( 'ToLane' )
-
+	self.mainStM:GotoState( 'Buying' )
+	self.itemProgression = 0
 	MoveUnitTo( self.hero, self.HIGH_GROUND_POS )
+end
+
+function AI:RegisterEventListeners()
+	--Listen to the entity hurt event for the AI hero
+	AIEvents:RegisterEventListener( 'entity_hurt', function( event )
+		if event.entindex_killed == self.heroIndex then
+			AI:OnTakeDamage( event )
+		end
+	end)
 end
 
 function AI:SetUpStateMachine()
@@ -68,6 +79,7 @@ function AI:SetUpPushingStateMachine()
 
 	statemachine:AddState( 'Attacking', Dynamic_Wrap( AI, 'Attacking' ) )
 	statemachine:AddState( 'Waiting', Dynamic_Wrap( AI, 'Waiting' ) )
+	statemachine:AddState( 'SafeRegen', Dynamic_Wrap( AI, 'SafeRegen' ) )
 
 	return statemachine
 end
@@ -75,9 +87,93 @@ end
 --AI think function
 function AI:Think()
 
-	self.mainStM:Think()
+	DebugDrawCircle( self.hero:GetAbsOrigin() + self.hero:GetForwardVector() * 200, Vector( 0, 255, 0 ), 10, 250, true, 0.5 )
+	DebugDrawCircle( self.hero:GetAbsOrigin() + self.hero:GetForwardVector() * 450, Vector( 0, 255, 0 ), 10, 250, true, 0.5 )
+	DebugDrawCircle( self.hero:GetAbsOrigin() + self.hero:GetForwardVector() * 700, Vector( 0, 255, 0 ), 10, 250, true, 0.5 )
 
-	return 1
+	TryAndReport( self.AbilityPointThink, self )
+	TryAndReport( self.mainStM.Think, self.mainStM )
+	--pcall(AI.AbilityPointThink, self)
+	--pcall(self.mainStM.Think, self.mainStM)
+
+	return 0.5
+end
+
+--Think about ability points
+function AI:AbilityPointThink()
+
+	local levelTable = {
+		'nevermore_necromastery', 	--1
+		'nevermore_shadowraze1',	--2
+		'nevermore_shadowraze1',	--3
+		'nevermore_necromastery',	--4
+		'nevermore_shadowraze1',	--5
+		'nevermore_necromastery',	--6
+		'nevermore_shadowraze1',	--7
+		'nevermore_necromastery',	--8
+		'nevermore_dark_lord',		--9
+		'nevermore_dark_lord',		--10
+		'nevermore_dark_lord',		--11
+		'nevermore_dark_lord',		--12
+		'attribute_bonus',			--13
+		'attribute_bonus',			--14
+		'attribute_bonus',			--15
+		'attribute_bonus',			--16
+		'attribute_bonus',			--17
+		'attribute_bonus',			--18
+		'attribute_bonus',			--19
+		'attribute_bonus',			--20
+		'attribute_bonus',			--21
+		'attribute_bonus',			--22
+		'nevermore_requiem',		--23
+		'nevermore_requiem',		--24
+		'nevermore_requiem'			--25
+	}
+
+	local abilityPoints = self.hero:GetAbilityPoints()
+
+	if abilityPoints > 0 then
+		for i=1,abilityPoints do
+			AI_Log('leveling '..levelTable[ self.hero:GetLevel() - i + 1 ] )
+			UnitLevelUpAbility( self.hero, self.hero:FindAbilityByName( levelTable[ self.hero:GetLevel() - i + 1 ] ) )
+		end
+	end
+end
+
+--Buy items
+function AI:BuyItems()
+	local itemTable = {
+		'item_tango',
+		'item_wraith_band',
+		'item_bottle',
+		'item_boots',
+		'item_belt_of_strength',
+		'item_gloves',
+		'item_ring_of_basilius'
+	}
+
+	while self.itemProgression < #itemTable and 
+		self.hero:GetGold() > GetItemCost( itemTable[self.itemProgression + 1] ) do
+		UnitBuyItem( self.hero, itemTable[self.itemProgression + 1] )
+		self.itemProgression = self.itemProgression + 1
+	end 
+end
+
+--Decide how to go to lane ( walking/TP )
+function AI:GoToLane()
+	MoveUnitTo( self.hero, self.HIGH_GROUND_POS )
+end
+
+function AI:OnTakeDamage( event )
+	local attacker = AI_EntIndexToHScript( event.entindex_attacker )
+	if attacker:IsTower() or attacker:IsHero() or ( self.hero:GetHealth()/self.hero:GetMaxHealth() ) < 0.6 then
+		self.pushStates:GotoState( 'SafeRegen', { entryTime = AI_GetGameTime() } )
+		if DistanceUnitTo( self.hero, self.HIGH_GROUND_POS ) < DistanceUnitTo( self.hero, self.LANE_CENTER ) then
+			MoveUnitTo( self.hero, self.NEAR_TOWER_POS )
+		else
+			MoveUnitTo( self.hero, self.NEAR_TOWER_POS )
+		end
+	end
 end
 
 --Return the AI object <-- IMPORTANT
