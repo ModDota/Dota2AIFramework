@@ -30,6 +30,33 @@ function AIManager:Init()
 
 	AIManager.heroesToSpawn = 0
 	AIManager.heroesSpawned = 0
+
+	AIManager:PopulateItemTable()
+
+	AIManager.AllowInGameLogging = true
+	AIManager.AllowDebugDrawing = true
+	AIManager.ForceDrawColor = true
+
+	--Update the settings when an event from the client is received
+	CustomGameEventManager:RegisterListener( 'spectator_options_update', function( player, event )
+		AIManager.AllowInGameLogging = event.allowLog == 1
+		if event.allowDraw == false and AIManager.AllowDebugDrawing == 1 then
+			DebugDrawClear()
+		end
+		AIManager.AllowDebugDrawing = event.allowDraw == 1
+		AIManager.ForceDrawColor = event.forceColor == 1
+	end)
+end
+
+--Fetch a table of item and custom items
+function AIManager:PopulateItemTable()
+	AIManager.itemTable = LoadKeyValues( 'scripts/npc/items.txt' )
+	local customItems = LoadKeyValues( 'scripts/npc/items_custom.txt' )
+	if customItems ~= nil then
+		for itemName, item in pairs( customItems ) do
+			AIManager.itemTable[ itemName ] = item
+		end
+	end
 end
 
 --script_reload handling
@@ -209,10 +236,19 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	global.Warning = Warning
 	global.AIUnitTests = AIUnitTests
 	global.class = class
+	global.pcall = pcall
+	global.debug = debug
 
 	--Enable the LoadKeyValues function but set the AI directory as root
 	global.LoadKeyValues = function( path )
 		return LoadKeyValues( 'scripts/vscripts/AI/UserAI/'..name..'/'..path )
+	end
+
+	--Get the ID of an item by name
+	global.GetItemID = function( name )
+		if AIManager.itemTable[ name ] ~= nil then
+			return AIManager.itemTable[ name ].ID
+		end
 	end
 
 	--Default Dota global functions
@@ -226,13 +262,19 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	global.RotationDelta = RotationDelta
 
 	--Overriden Dota global functions
-	function global.AI_FindUnitsInRadius ( ... ) return wrapper:AI_FindUnitsInRadius( ... ) end
-	function global.AI_EntIndexToHScript ( ... ) return wrapper:AI_EntIndexToHScript( ... ) end
-	function global.AI_MinimapEvent ( ... ) return wrapper:AI_MinimapEvent( ... ) end
-	function global.AI_ExecuteOrderFromTable ( ... ) return wrapper:AI_ExecuteOrderFromTable( ... ) end
-	function global.AI_Say ( ... ) return wrapper:AI_Say( ... ) end
-	function global.AI_GetGameTime ( ... ) return wrapper:AI_GetGameTime( ... ) end
-	function global.AI_Log ( ... ) return wrapper:AI_Log( ... ) end
+	function global.AI_FindUnitsInRadius( ... ) return wrapper:AI_FindUnitsInRadius( ... ) end
+	function global.AI_EntIndexToHScript( ... ) return wrapper:AI_EntIndexToHScript( ... ) end
+	function global.AI_MinimapEvent( ... ) return wrapper:AI_MinimapEvent( ... ) end
+	function global.AI_ExecuteOrderFromTable( ... ) return wrapper:AI_ExecuteOrderFromTable( ... ) end
+	function global.AI_Say( ... ) return wrapper:AI_Say( ... ) end
+	function global.AI_BuyItem( ... ) return wrapper:AI_BuyItem( ... ) end
+	function global.AI_GetGameTime( ... ) return wrapper:AI_GetGameTime( ... ) end
+	function global.AI_Log( ... ) return wrapper:AI_Log( ... ) end
+	function global.DebugDrawBox( ... ) return wrapper:DebugDrawBox( ... ) end
+	function global.DebugDrawCircle( ... ) return wrapper:DebugDrawCircle( ... ) end
+	function global.DebugDrawSphere( ... ) return wrapper:DebugDrawSphere( ... ) end
+	function global.DebugDrawLine( ... ) return wrapper:DebugDrawLine( ... ) end
+	function global.DebugDrawText( ... ) return wrapper:DebugDrawText( ... ) end
 
 	--Copy over constants
 	for k, v in pairs( _G ) do

@@ -1,15 +1,33 @@
 <root>
 	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/styles/custom_game/custom_hud.css" />
 	</styles>
 
 	<scripts>
 	</scripts>
 
 	<script>
-		$.Msg('HELLO');
+		function OnToggle() {
+			GameEvents.SendCustomGameEventToServer( 'spectator_options_update', {
+				allowLog : $('#LogToggle').checked,
+				allowDraw : $('#DrawToggle').checked,
+				forceColor : $('#ColorToggle').checked });
+		}
+
+		(function() {
+			$('#LogToggle').SetSelected( true );
+			$('#DrawToggle').SetSelected( true );
+			$('#ColorToggle').SetSelected( true );
+		})();
 	</script>
 
 	<Panel class="CustomHUD" hittest="false">
+		<Panel id="SpectatorOptions">
+			<ToggleButton text="Show AI Logging" id='LogToggle' class="OptionToggle" onactivate='OnToggle()' />
+			<ToggleButton text="Show AI Drawing" id='DrawToggle' class="OptionToggle" onactivate='OnToggle()' />
+			<ToggleButton text="Force Drawing Color" id='ColorToggle' class="OptionToggle" onactivate='OnToggle()' />
+		</Panel>
 	</Panel>
 </root>
 
