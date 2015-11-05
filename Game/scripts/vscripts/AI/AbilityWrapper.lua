@@ -221,6 +221,32 @@ function AbilitySetup( ability, globalAbility, team )
 		return globalAbility:GetChannelledManaCostPerSecond( level )
 	end
 
+	--[[
+		ability:IsItem()
+		Return if the ability is an item or not.
+
+		Modification: -
+		Parameters: -
+	]]
+	function ability:IsItem()
+		return globalAbility:IsItem()
+	end
+
+	--[[
+		ability:GetCurrentCharges()
+		Get the current amount of charges on an item.
+
+		Modification: Only works if the owner is in vision.
+		Parameters: -
+	]]
+	function ability:GetCurrentCharges()
+		if InVision( globalAbility:GetCaster(), team ) then
+			return globalAbility:GetCurrentCharges()
+		else
+			return 0
+		end
+	end
+
 	--Entity functions
 	--==========================================================================
 	--[[
@@ -231,7 +257,7 @@ function AbilitySetup( ability, globalAbility, team )
 		Parameters: -
 	]]
 	function ability:GetClassname()
-		return globalUnit:GetClassname()
+		return globalAbility:GetClassname()
 	end
 
 	--[[
@@ -242,7 +268,7 @@ function AbilitySetup( ability, globalAbility, team )
 		Parameters: -
 	]]
 	function ability:GetEntityHandle()
-		return globalUnit:GetEntityHandle()
+		return globalAbility:GetEntityHandle()
 	end
 
 	--[[
@@ -253,7 +279,7 @@ function AbilitySetup( ability, globalAbility, team )
 		Parameters: -
 	]]
 	function ability:GetEntityIndex()
-		return globalUnit:GetEntityIndex()
+		return globalAbility:GetEntityIndex()
 	end
 
 	--[[
@@ -264,6 +290,6 @@ function AbilitySetup( ability, globalAbility, team )
 		Parameters: -
 	]]
 	function ability:GetName()
-		return globalUnit:GetName()
+		return globalAbility:GetName()
 	end
 end

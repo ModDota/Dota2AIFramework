@@ -46,6 +46,7 @@ function AIFramework:Init()
 	ListenToGameEvent( 'player_connect_full', Dynamic_Wrap( AIFramework, 'OnPlayerConnect' ), self )
 	ListenToGameEvent( 'game_rules_state_change', Dynamic_Wrap( AIFramework, 'OnGameStateChange' ), self )
 	CustomGameEventManager:RegisterListener( 'spawn_ai', function(...) self:SpawnAI(...) end )
+
 end
 
 --player_connect_full event handler

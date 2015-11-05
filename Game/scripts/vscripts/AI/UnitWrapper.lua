@@ -262,6 +262,97 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
+	--[[
+		unit:GetAbilityPoints()
+		Retrieve the amount of ability points a hero has.
+		
+		Modification: Only works for allies.
+		Parameters: -
+	]]
+	function unit:GetAbilityPoints()
+		if globalUnit:GetTeamNumber() == team and globalUnit.GetAbilityPoints ~= nil then
+			return globalUnit:GetAbilityPoints()
+		else
+			return 0
+		end
+	end
+
+	--[[
+		unit:GetLevel()
+		Get the level of a unit.
+		
+		Modification: Only works for units in vision.
+		Parameters: -
+	]]
+	function unit:GetLevel()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetLevel()
+		else
+			return 0
+		end
+	end
+
+	--[[
+		unit:GetGold()
+		Get the gold of a unit.
+		
+		Modification: Only works for allies.
+		Parameters: -
+	]]
+	function unit:GetGold()
+		if globalUnit:GetTeamNumber() == team then
+			return globalUnit:GetGold()
+		else
+			return 0
+		end
+	end
+
+	--[[
+		unit:IsHero()
+		See if the hero is a unit or not.
+
+		Modification: Only works in vision.
+		Parameters: --
+	]]
+	function unit:IsHero()
+		if InVision( globalUnit, team ) then
+			return globalUnit:IsHero()
+		else
+			return false
+		end
+	end
+
+	--[[
+		unit:IsTower()
+		See if the hero is a unit or not.
+
+		Modification: Only works in vision.
+		Parameters: --
+	]]
+	function unit:IsTower()
+		if InVision( globalUnit, team ) then
+			return globalUnit:IsTower()
+		else
+			return false
+		end
+	end
+
+	--[[
+		unit:GetForwardVector()
+		Get the forward vector of the unit.
+
+		Modificaction: Only works in vision.
+		Parameters: -
+	]]
+	function unit:GetForwardVector()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetForwardVector()
+		else
+			return Vector( 1, 0, 0 )
+		end
+	end
+
+
 	--Entity functions
 	--==========================================================================
 

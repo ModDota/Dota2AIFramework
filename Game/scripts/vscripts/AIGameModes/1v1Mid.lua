@@ -46,8 +46,8 @@ function AIGameMode:OnGameStart( teamHeroes )
 	self.team2Hero = teamHeroes[ DOTA_TEAM_BADGUYS ][1]
 
 	--Save the tower handles
-	self.team1Tower = Entities:FindByName( nil, 'tower_radiant_mid_1' )
-	self.team2Tower = Entities:FindByName( nil, 'tower_dire_mid_1' )
+	self.team1Tower = Entities:FindByName( nil, 'dota_goodguys_tower1_mid' )
+	self.team2Tower = Entities:FindByName( nil, 'dota_badguys_tower1_mid' )
 
 	--Listen to entity kills
 	ListenToGameEvent( 'entity_killed', Dynamic_Wrap( AIGameMode, 'OnEntityKilled' ), self )
