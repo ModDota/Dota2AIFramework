@@ -98,11 +98,11 @@ end
 	@desc Fire an event on the minimap.
 
 	@modification Removed team parameter, limited to entities in vision.
-	@param {handle} entity - Entity the event was fired on ( can be nil ).
-	@param {float} xCoord - The x-coordinate of the event.
-	@param {float} yCoord - The y-coordinate of the event.
-	@param {integer} eventType - The type of the event, DOTA_MINIMAP_EVENT_*.
-	@param {float} eventDuration - The duration of the minimap event.
+	@param {handle} entity Entity the event was fired on ( can be nil ).
+	@param {float} xCoord The x-coordinate of the event.
+	@param {float} yCoord The y-coordinate of the event.
+	@param {integer} eventType The type of the event, DOTA_MINIMAP_EVENT_*.
+	@param {float} eventDuration The duration of the minimap event.
 ]]
 function AIWrapper:AI_MinimapEvent( entity, xCoord, yCoord, eventType, eventDuration )
 	--Check if the unit is in vision
@@ -119,13 +119,13 @@ end
 	@desc Execute an order from a table
 
 	@modification Only works for units of the AI, and the target entity is not in fog.
-	@param {table} table - The order table, contains the following parameters:
-			+ UnitIndex - The entity index of the unit the order is given to.
-			+ OrderType - The type of unit given.
-			+ TargetIndex - (OPTIONAL) The entity index of the target unit.
-			+ AbilityIndex - (OPTIONAL) The entity index of the target unit.
-			+ Position - (OPTIONAL) The (vector) position of the order.
-			+ Queue - (OPTIONAL) Queue the order or not (boolean).
+	@param {table} table The order table, contains the following parameters:
+			* UnitIndex - The entity index of the unit the order is given to.
+			* OrderType - The type of unit given.
+			* TargetIndex - (OPTIONAL) The entity index of the target unit.
+			* AbilityIndex - (OPTIONAL) The entity index of the target unit.
+			* Position - (OPTIONAL) The (vector) position of the order.
+			* Queue - (OPTIONAL) Queue the order or not (boolean).
 ]]
 function AIWrapper:AI_ExecuteOrderFromTable( table )
 	--Verify if the unit belongs to the AI
