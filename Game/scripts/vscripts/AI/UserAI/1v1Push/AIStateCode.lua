@@ -51,6 +51,8 @@ function AI:ToLane( state )
 		return
 	end
 
+	MoveUnitTo( self.hero, self.NEAR_TOWER_POS, true )
+
 	if not self.hero:IsAlive() then
 		self.mainStM:GotoState( 'Buying' )
 		return

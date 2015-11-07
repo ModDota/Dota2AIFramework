@@ -104,17 +104,17 @@ function AI:AbilityPointThink()
 
 	local levelTable = {
 		'nevermore_necromastery', 	--1
-		'nevermore_shadowraze1',	--2
-		'nevermore_shadowraze1',	--3
+		'nevermore_dark_lord',		--2
+		'nevermore_dark_lord',		--3
 		'nevermore_necromastery',	--4
-		'nevermore_shadowraze1',	--5
+		'nevermore_dark_lord',		--5
 		'nevermore_necromastery',	--6
-		'nevermore_shadowraze1',	--7
+		'nevermore_dark_lord',		--7
 		'nevermore_necromastery',	--8
-		'nevermore_dark_lord',		--9
-		'nevermore_dark_lord',		--10
-		'nevermore_dark_lord',		--11
-		'nevermore_dark_lord',		--12
+		'nevermore_shadowraze1',	--9
+		'nevermore_shadowraze1',	--10
+		'nevermore_shadowraze1',	--11
+		'nevermore_shadowraze1',	--12
 		'attribute_bonus',			--13
 		'attribute_bonus',			--14
 		'attribute_bonus',			--15
