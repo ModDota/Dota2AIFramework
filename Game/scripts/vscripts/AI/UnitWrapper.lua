@@ -41,23 +41,21 @@ end
 --====================================================================================================
 function UnitSetup( unit, globalUnit, team )
 
-	--[[
-		unit:IsInVision()
-		Return if the unit is in vision or not
+	--[[[
+		@func unit:IsInVision()
+		@desc Return if the unit is in vision or not
 
-		Modification:Does not exist in regular API.
-		Parameters: -
+		@modification Does not exist in regular API.
 	]]
 	function unit:IsInVision()
 		return InVision( globalUnit, team )
 	end
 
-	--[[
-		unit:HasBuyback()
-		Return if the unit has buyback or not. Only for allies.
+	--[[[
+		@func unit:HasBuyback()
+		@desc Return if the unit has buyback or not. Only for allies.
 
-		Modification:Does not exist in regular API.
-		Parameters: -
+		@modification Does not exist in regular API.
 	]]
 	function unit:HasBuyback()
 		if globalUnit:GetTeamNumber() == team then
@@ -69,12 +67,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetAbsOrigin()
-		Get the position of the unit.
+	--[[[
+		@func unit:GetAbsOrigin()
+		@desc Get the position of the unit.
 
-		Modification: Return nil when unit is in fog of war.
-		Parameters: -
+		@modification Return nil when unit is in fog of war.
 	]]
 	function unit:GetAbsOrigin()
 		if InVision( globalUnit, team ) then
@@ -84,12 +81,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetOrigin()
-		Get the position of the unit.
+	--[[[
+		@func unit:GetOrigin()
+		@desc Get the position of the unit.
 
-		Modification: Return nil when unit is in fog of war.
-		Parameters: -
+		@modification Return nil when unit is in fog of war.
 	]]
 	function unit:GetOrigin()
 		if InVision( globalUnit, team ) then
@@ -99,23 +95,21 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetPlayerOwnerID()
-		Get the ID of the player owning this unit.
+	--[[[
+		@func unit:GetPlayerOwnerID()
+		@desc Get the ID of the player owning this unit.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function unit:GetPlayerOwnerID()
 		return globalUnit:GetPlayerOwnerID()
 	end
 
-	--[[
-		unit:GetHealth()
-		Get the health of the unit.
+	--[[[
+		@func unit:GetHealth()
+		@desc Get the health of the unit.
 
-		Modification: Return nil when unit is in fog of war.
-		Parameters: -
+		@modification Return nil when unit is in fog of war.
 	]]
 	function unit:GetHealth()
 		if InVision( globalUnit, team ) then
@@ -125,12 +119,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetMaxHealth()
-		Get the maximum health of the unit.
+	--[[[
+		@func unit:GetMaxHealth()
+		@desc Get the maximum health of the unit.
 
-		Modification: Return nil when unit is in fog of war.
-		Parameters: -
+		@modification Return nil when unit is in fog of war.
 	]]
 	function unit:GetMaxHealth()
 		if InVision( globalUnit, team ) then
@@ -140,12 +133,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetModelName()
-		Get the model name of the unit.
+	--[[[
+		@func unit:GetModelName()
+		@desc Get the model name of the unit.
 
-		Modification: Return nil when unit is in fog of war.
-		Parameters: -
+		@modification Return nil when unit is in fog of war.
 	]]
 	function unit:GetModelName()
 		if InVision( globalUnit, team ) then
@@ -155,56 +147,51 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetOwner()
-		Get the owner of the unit.
+	--[[[
+		@func unit:GetOwner()
+		@desc Get the owner of the unit.
 
-		Modification: Wrap result.
-		Parameters: -
+		@modification Wrap result.
 	]]
 	function unit:GetOwner()
 		return WrapUnit( globalUnit:GetOwner(), team )
 	end
 
-	--[[
-		unit:GetOwnerEntity()
-		Get the owner of the unit.
+	--[[[
+		@func unit:GetOwnerEntity()
+		@desc Get the owner of the unit.
 
-		Modification: Wrap result.
-		Parameters: -
+		@modification Wrap result.
 	]]
 	function unit:GetOwnerEntity()
 		return WrapUnit( globalUnit:GetOwnerEntity(), team )
 	end
 
-	--[[
-		unit:GetTeam()
-		Get the team of the unit.
+	--[[[
+		@func unit:GetTeam()
+		@desc Get the team of the unit.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function unit:GetTeam()
 		return globalUnit:GetTeam()
 	end
 
-	--[[
-		unit:GetTeamNumber()
-		Get the team of the unit.
+	--[[[
+		@func unit:GetTeamNumber()
+		@desc Get the team of the unit.
 
-		Modification: -
-		Parameters: -
+		@modification None.
 	]]
 	function unit:GetTeamNumber()
 		return globalUnit:GetTeamNumber()
 	end
 
-	--[[
-		unit:IsAlive()
-		Return if the unit is alive or not.
+	--[[[
+		@func unit:IsAlive()
+		@desc Return if the unit is alive or not.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function unit:IsAlive()
 		if InVision( globalUnit, team ) then
@@ -214,13 +201,12 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetAbilityByIndex( index )
-		Retrieve an ability by index from the unit.
+	--[[[
+		@func unit:GetAbilityByIndex( index )
+		@desc Retrieve an ability by index from the unit.
 		
-		Modification: Wrap the result, only works if unit is in vision, nil otherwise.
-		Parameters:
-			* index - The index of the ability on the unit
+		@modification Wrap the result, only works if unit is in vision, nil otherwise.
+		@param {number} index The index of the ability on the unit.
 	]]
 	function unit:GetAbilityByIndex( index )
 		if InVision( globalUnit, team ) then
@@ -230,13 +216,12 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:FindAbilityByName( name )
-		Retrieve an ability by index from the unit.
+	--[[[
+		@func unit:FindAbilityByName( name )
+		@desc Retrieve an ability by index from the unit.
 		
-		Modification: Only works if the unit is in vision and wraps result.
-		Parameters:
-			* name - The name of the ability to look up.
+		@modification Only works if the unit is in vision and wraps result.
+		@param {string} name The name of the ability to look up.
 	]]
 	function unit:FindAbilityByName( name )
 		if InVision( globalUnit, team ) then
@@ -246,13 +231,12 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetItemInSlot( slot )
-		Retrieve an item by slot from the unit.
+	--[[[
+		@func unit:GetItemInSlot( slot )
+		@desc Retrieve an item by slot from the unit.
 		
-		Modification: Only works if the unit is in vision and wraps the result.
-		Parameters:
-			* name - The name of the ability to look up.
+		@modification Only works if the unit is in vision and wraps the result.
+		@param {number} slot The name of the ability to look up.
 	]]
 	function unit:GetItemInSlot( slot )
 		if InVision( globalUnit, team ) then
@@ -262,12 +246,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetAbilityPoints()
-		Retrieve the amount of ability points a hero has.
+	--[[[
+		@func unit:GetAbilityPoints()
+		@desc Retrieve the amount of ability points a hero has.
 		
-		Modification: Only works for allies.
-		Parameters: -
+		@modification Only works for allies.
 	]]
 	function unit:GetAbilityPoints()
 		if globalUnit:GetTeamNumber() == team and globalUnit.GetAbilityPoints ~= nil then
@@ -277,12 +260,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetLevel()
-		Get the level of a unit.
+	--[[[
+		@func unit:GetLevel()
+		@desc Get the level of a unit.
 		
-		Modification: Only works for units in vision.
-		Parameters: -
+		@modification Modification: Only works for units in vision.
 	]]
 	function unit:GetLevel()
 		if InVision( globalUnit, team ) then
@@ -292,12 +274,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetGold()
-		Get the gold of a unit.
+	--[[[
+		@func unit:GetGold()
+		@desc Get the gold of a unit.
 		
-		Modification: Only works for allies.
-		Parameters: -
+		@modification Modification: Only works for allies.
 	]]
 	function unit:GetGold()
 		if globalUnit:GetTeamNumber() == team then
@@ -307,12 +288,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:IsHero()
-		See if the hero is a unit or not.
+	--[[[
+		@func unit:IsHero()
+		@desc See if the hero is a unit or not.
 
-		Modification: Only works in vision.
-		Parameters: --
+		@modification Only works in vision.
 	]]
 	function unit:IsHero()
 		if InVision( globalUnit, team ) then
@@ -322,12 +302,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:IsTower()
-		See if the hero is a unit or not.
+	--[[[
+		@func unit:IsTower()
+		@desc See if the hero is a unit or not.
 
-		Modification: Only works in vision.
-		Parameters: --
+		@modification Only works in vision.
 	]]
 	function unit:IsTower()
 		if InVision( globalUnit, team ) then
@@ -337,12 +316,11 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
-	--[[
-		unit:GetForwardVector()
-		Get the forward vector of the unit.
+	--[[[
+		@func unit:GetForwardVector()
+		@desc Get the forward vector of the unit.
 
-		Modificaction: Only works in vision.
-		Parameters: -
+		@modification Only works in vision.
 	]]
 	function unit:GetForwardVector()
 		if InVision( globalUnit, team ) then
@@ -352,49 +330,170 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
+	--[[[
+		@func unit:GetAttackRange()
+		@desc Get the unit's attack range.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetAttackRange()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetAttackRange()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetAttackAnimationPoint()
+		@desc Get the unit's attack animation point.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetAttackRange()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetAttackAnimationPoint()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetAttackCapability()
+		@desc Get the unit's attack capability.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetAttackCapability()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetAttackCapability()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetAttackRange()
+		@desc Get the unit's attack range.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetAttackRange()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetForwardVector()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetAttackSpeed()
+		@desc Get the unit's attack speed.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetAttackSpeed()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetAttackSpeed()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetAttacksPerSecond()
+		@desc Get the amount of attacks the unit does per second based on its attack speed.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetAttacksPerSecond()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetAttacksPerSecond()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetIdealSpeed()
+		@desc Get the unit's movespeed.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetIdealSpeed()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetIdealSpeed()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetProjectileSpeed()
+		@desc Get the unit's projectile speed.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetProjectileSpeed()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetProjectileSpeed()
+		else
+			return 0
+		end
+	end
+
+	--[[[
+		@func unit:GetAverageTrueDamage()
+		@desc Get the average value of the unit's minimum and maximum damage values.
+
+		@modification: Only works in vision.
+	]]
+	function unit:GetAverageTrueDamage()
+		if InVision( globalUnit, team ) then
+			return globalUnit:GetForwardVector()
+		else
+			return 0
+		end
+	end
 
 	--Entity functions
 	--==========================================================================
 
-	--[[
-		entity:GetClassname()
-		Get the classname of the entity.
+	--[[[
+		@func entity:GetClassname()
+		@desc Get the classname of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function unit:GetClassname()
 		return globalUnit:GetClassname()
 	end
 
-	--[[
-		entity:GetEntityHandle()
-		Get the entity handle of the entity.
+	--[[[
+		@func entity:GetEntityHandle()
+		@desc Get the entity handle of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function unit:GetEntityHandle()
 		return globalUnit:GetEntityHandle()
 	end
 
-	--[[
-		entity:GetEntityIndex()
-		Get the entity index of the entity.
+	--[[[
+		@func entity:GetEntityIndex()
+		@desc Get the entity index of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function unit:GetEntityIndex()
 		return globalUnit:GetEntityIndex()
 	end
 
-	--[[
-		entity:GetName()
-		Get the name of the entity.
+	--[[[
+		@func entity:GetName()
+		@desc Get the name of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function unit:GetName()
 		return globalUnit:GetName()

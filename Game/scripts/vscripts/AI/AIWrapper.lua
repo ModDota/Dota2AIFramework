@@ -40,20 +40,18 @@ end
 --AI-accessible functions
 --=======================================================================================================================
 
---[[
-	AI_FindUnitsInRadius( Position, CacheUnit, Radius, TeamFilter, TypeFilter, FlagFilter, Order, CanGrowCache )
-	Finds units in a radius with some parameters.
+--[[[
+	@func AI_FindUnitsInRadius( position, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
+	@desc Finds units in a radius with some parameters.
 
-	Modification: Can only find units visible by the AI's team.
-	Parameters:
-		* Position - The center of the circle to search in
-		* CacheUnit - The cache unit.
-		* Radius - The radius to search in
-		* TeamFilter - DOTA_UNIT_TARGET_TEAM_* filter.
-		* TypeFilter - DOTA_UNIT_TARGET_TYPE_* filter.
-		* FlagFilter - DOTA_UNIT_TARGET_FLAG_* filter.
-		* Order - The order to return results in.
-		* CanGrowCache - Can the search grow the cache.
+	@modification Can only find units visible by the AI's team.
+	@param {Vector} Position The center of the circle to search in
+	@param {integer} Radius The radius to search in
+	@param {integer} TeamFilter DOTA_UNIT_TARGET_TEAM_* filter.
+	@param {integer} TypeFilter DOTA_UNIT_TARGET_TYPE_* filter.
+	@param {integer} FlagFilter DOTA_UNIT_TARGET_FLAG_* filter.
+	@param {integer} Order The order to return results in.
+	@param {boolean} CanGrowCache Can the search grow the cache.
 ]]
 function AIWrapper:AI_FindUnitsInRadius( position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
 
@@ -71,13 +69,12 @@ function AIWrapper:AI_FindUnitsInRadius( position, cacheUnit, radius, teamFilter
 	return result
 end
 
---[[
-	AI_EntIndexToHScript( ent_index )
-	Return the entity by its entity index.
+--[[[
+	@func AI_EntIndexToHScript( ent_index )
+	@desc Return the entity by its entity index.
 
-	Modification: Returns wrapped units/abilities.
-	Parameters:
-		* ent_index - The entity index of a unit or ability.
+	@modification Returns wrapped units/abilities.
+	@param {integer} ent_index The entity index of a unit or ability.
 ]]
 function AIWrapper:AI_EntIndexToHScript( ent_index )
 	local entity = EntIndexToHScript( ent_index )
@@ -96,17 +93,16 @@ function AIWrapper:AI_EntIndexToHScript( ent_index )
 	end
 end
 
---[[
-	AI_MinimapEvent( entity, xCoord, yCoord, eventType, eventDuration )
-	Fire an event on the minimap.
+--[[[
+	@func AI_MinimapEvent( entity, xCoord, yCoord, eventType, eventDuration )
+	@desc Fire an event on the minimap.
 
-	Modification: Removed team parameter, limited to entities in vision.
-	Parameters:
-		* entity - Entity the event was fired on ( can be nil ).
-		* xCoord - The x-coordinate of the event.
-		* yCoord - The y-coordinate of the event.
-		* eventType - The type of the event, DOTA_MINIMAP_EVENT_*.
-		* eventDuration - The duration of the minimap event.
+	@modification Removed team parameter, limited to entities in vision.
+	@param {handle} entity - Entity the event was fired on ( can be nil ).
+	@param {float} xCoord - The x-coordinate of the event.
+	@param {float} yCoord - The y-coordinate of the event.
+	@param {integer} eventType - The type of the event, DOTA_MINIMAP_EVENT_*.
+	@param {float} eventDuration - The duration of the minimap event.
 ]]
 function AIWrapper:AI_MinimapEvent( entity, xCoord, yCoord, eventType, eventDuration )
 	--Check if the unit is in vision
@@ -118,13 +114,12 @@ function AIWrapper:AI_MinimapEvent( entity, xCoord, yCoord, eventType, eventDura
 	end
 end
 
---[[
-	AI_ExecuteOrderFromTable( ent_index )
-	Execute an order from a table
+--[[[
+	@func AI_ExecuteOrderFromTable( ent_index )
+	@desc Execute an order from a table
 
-	Modification: Only works for units of the AI, and the target entity is not in fog.
-	Parameters:
-		* table - The order table, contains the following parameters:
+	@modification Only works for units of the AI, and the target entity is not in fog.
+	@param {table} table - The order table, contains the following parameters:
 			+ UnitIndex - The entity index of the unit the order is given to.
 			+ OrderType - The type of unit given.
 			+ TargetIndex - (OPTIONAL) The entity index of the target unit.
@@ -152,15 +147,14 @@ function AIWrapper:AI_ExecuteOrderFromTable( table )
 	ExecuteOrderFromTable( table )
 end
 
---[[
-	AI_Say( player, message, teamOnly )
-	Make a player say something in chat.
+--[[[
+	@func AI_Say( player, message, teamOnly )
+	@desc Make a player say something in chat.
 
-	Modification: Only works for players owned by the AI, uses player ID instead of player.
-	Parameters:
-		* playerID - The id of the player doing the talking.
-		* message - The message.
-		* teamOnly - Is the message in team chat or not (boolean).
+	@modification Only works for players owned by the AI, uses player ID instead of player.
+	@param {integer} playerID The id of the player doing the talking.
+	@param {string} message The message.
+	@param {boolean} teamOnly Is the message in team chat or not (boolean).
 ]]
 function AIWrapper:AI_Say( playerID, message, teamOnly )
 	local player = PlayerResource:GetPlayer( playerID )
@@ -173,14 +167,13 @@ function AIWrapper:AI_Say( playerID, message, teamOnly )
 	end
 end
 
---[[
-	AI_BuyItem( unit, itemName )
-	Buy an item on a unit.
+--[[[
+	@func AI_BuyItem( unit, itemName )
+	@desc Buy an item on a unit.
 
-	Modification: Does not exist in the original AI.
-	Parameters:
-		* unit - The unit to buy the item on.
-		* itemName - The item to buy.
+	@modification Does not exist in the original AI.
+	@param {handle} unit The unit to buy the item on.
+	@param {string} itemName The item to buy.
 ]]
 function AIWrapper:AI_BuyItem( unit, itemName )
 	local orgUnit = EntIndexToHScript( unit:GetEntityIndex() )
@@ -202,24 +195,22 @@ function AIWrapper:AI_BuyItem( unit, itemName )
 	end	
 end
 
---[[
-	AI_GetGameTime()
-	Get the current game time.
+--[[[
+	@func AI_GetGameTime()
+	@desc Get the current game time.
 
-	Modification: -
-	Parameters: -
+	@modification -
 ]]
 function AIWrapper:AI_GetGameTime()
 	return GameRules:GetGameTime()
 end
 
---[[
-	AI_Log( message )
-	Log functionality for AI.
+--[[[
+	@func AI_Log( message )
+	@desc Log functionality for AI.
 
-	Modification: -
-	Parameters:
-		* message - The message to log
+	@modification -
+	@param {string} message The message to log
 ]]
 function AIWrapper:AI_Log( message )
 	local time = GameRules:GetGameTime()
@@ -229,20 +220,19 @@ function AIWrapper:AI_Log( message )
 	print( string.format( '[AI %i | %.2f]: %s', self.team, time, message ) )
 end
 
---[[
-	AI_DebugDrawBox( origin, min, max, r, g, b, a, duration )
-	Draw a box.
+--[[[
+	@func AI_DebugDrawBox( origin, min, max, r, g, b, a, duration )
+	@desc Draw a box.
 
-	Modification: Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
-	Parameters:
-		* origin - The origin vector.
-		* min - A vector relative to the origin with the minimal coordinate corner.
-		* max - A vector relative to the origin with the maximal coordinate corner.
-		* r - The red component in the RGBA color (0-255).
-		* g - The green component in the RGBA color (0-255).
-		* b - The blue component in the RGBA color (0-255).
-		* a - The alpha component in the RGBA color (0-255).
-		* duration - The duration of the drawing in seconds.
+	@modification Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
+	@param {Vector} origin The origin vector.
+	@param {Vector} min A vector relative to the origin with the minimal coordinate corner.
+	@param {Vector} max A vector relative to the origin with the maximal coordinate corner.
+	@param {integer} r The red component in the RGBA color (0-255).
+	@param {integer} g The green component in the RGBA color (0-255).
+	@param {integer} b The blue component in the RGBA color (0-255).
+	@param {integer} a The alpha component in the RGBA color (0-255).
+	@param {float} duration The duration of the drawing in seconds.
 ]]
 function AIWrapper:DebugDrawBox( origin, min, max, r, g, b, a, duration )
 	if AIManager.AllowDebugDrawing then
@@ -255,18 +245,17 @@ function AIWrapper:DebugDrawBox( origin, min, max, r, g, b, a, duration )
 	end
 end
 
---[[
-	AI_DebugDrawCircle( center, vRgb, a, rad, ztest, duration )
-	Draw a circle.
+--[[[
+	@func AI_DebugDrawCircle( center, vRgb, a, rad, ztest, duration )
+	@desc Draw a circle.
 
-	Modification: Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
-	Parameters:
-		* center - The center of the circle
-		* vRgba - The color vector for the circle
-		* a - The alpha channel of the color.
-		* rad - The radius of the circle.
-		* ztest - Disable ztest?
-		* duration - The duratin of the drawing
+	@modification Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
+	@param {Vector} center The center of the circle
+	@param {Vector} vRgba The color vector for the circle
+	@param {integer} a The alpha channel of the color.
+	@param {integer} rad The radius of the circle.
+	@param {boolean} ztest Disable ztest?
+	@param {float} duration The duration of the drawing
 ]]
 function AIWrapper:DebugDrawCircle( center, vRgb, a, rad, ztest, duration )
 	if AIManager.AllowDebugDrawing then
@@ -277,18 +266,17 @@ function AIWrapper:DebugDrawCircle( center, vRgb, a, rad, ztest, duration )
 	end
 end
 
---[[
-	AI_DebugDrawSphere( center, vRgb, a, rad, ztest, duration )
-	Draw a sphere.
+--[[[
+	@func AI_DebugDrawSphere( center, vRgb, a, rad, ztest, duration )
+	@desc Draw a sphere.
 
-	Modification: Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
-	Parameters:
-		* center - The center of the circle
-		* vRgba - The color vector for the circle
-		* a - The alpha channel of the color.
-		* rad - The radius of the circle.
-		* ztest - Disable ztest?
-		* duration - The duratin of the drawing
+	@modification Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
+	@param {Vector} center The center of the circle
+	@param {Vector} vRgba The color vector for the circle
+	@param {integer} a The alpha channel of the color.
+	@param {integer} rad The radius of the circle.
+	@param {boolean} ztest Disable ztest?
+	@param {float} duration The duration of the drawing
 ]]
 function AIWrapper:DebugDrawSphere( center, vRgb, a, rad, ztest, duration )
 	if AIManager.AllowDebugDrawing then
@@ -299,19 +287,18 @@ function AIWrapper:DebugDrawSphere( center, vRgb, a, rad, ztest, duration )
 	end
 end
 
---[[
-	AI_DebugDrawLine( origin, target, r, g, b, ztest, duration )
-	Draw a line.
+--[[[
+	@func AI_DebugDrawLine( origin, target, r, g, b, ztest, duration )
+	@desc Draw a line.
 
-	Modification: Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
-	Parameters:
-		* origin - The origin vector (from).
-		* target - The target vector (to).
-		* r - The red component in the RGBA color (0-255).
-		* g - The green component in the RGBA color (0-255).
-		* b - The blue component in the RGBA color (0-255).
-		* ztest - Disable ztest?
-		* duration - The duration of the drawing in seconds.
+	@modification Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
+	@param {Vector} origin The origin vector (from).
+	@param {Vector} target The target vector (to).
+	@param {integer} r The red component in the RGBA color (0-255).
+	@param {integer} g The green component in the RGBA color (0-255).
+	@param {integer} b The blue component in the RGBA color (0-255).
+	@param {boolean} ztest Disable ztest?
+	@param {float} duration The duration of the drawing in seconds.
 ]]
 function AIWrapper:DebugDrawLine( origin, target, r, g, b, ztest, duration )
 	if AIManager.AllowDebugDrawing then
@@ -324,16 +311,15 @@ function AIWrapper:DebugDrawLine( origin, target, r, g, b, ztest, duration )
 	end
 end
 
---[[
-	AI_DebugDrawText( origin, text, viewCheck, duration )
-	Draw text.
+--[[[
+	@func AI_DebugDrawText( origin, text, viewCheck, duration )
+	@desc Draw text.
 
-	Modification: Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
-	Parameters:
-		* origin - The origin vector (from).
-		* text - The text to display.
-		* viewCheck - Is the text aligned with the viewport?
-		* duration - The duration of the drawing in seconds.
+	@modification Only works if AIManager.AllowDebugDrawing. Forces a certain color if AIManager.ForceDrawColor.
+	@param {Vector} origin The origin vector (from).
+	@param {string} text The text to display.
+	@param {boolean} viewCheck Is the text aligned with the viewport?
+	@param {float} duration The duration of the drawing in seconds.
 ]]
 function AIWrapper:DebugDrawText( origin, text, viewCheck, duration )
 	if AIManager.AllowDebugDrawing then

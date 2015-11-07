@@ -14,111 +14,111 @@ function AIPlayerResource:constructor( team )
 	self.team = team
 end
 
---[[
-	AIPlayerResource:GetConnectionState( playerID )
-	Get connection state of a player.
+--[[[
+	@func AIPlayerResource:GetConnectionState( playerID )
+	@desc Get connection state of a player.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetConnectionState( playerID )
 	return PlayerResource:GetConnectionState( playerID )
 end
 
---[[
-	AIPlayerResource:GetPlayerLoadedCompletely( playerID )
-	Check if a player has loaded completely or not.
+--[[[
+	@func AIPlayerResource:GetPlayerLoadedCompletely( playerID )
+	@desc Check if a player has loaded completely or not.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetPlayerLoadedCompletely( playerID )
 	return PlayerResource:GetPlayerLoadedCompletely( playerID )
 end
 
---[[
-	AIPlayerResource:GetTeam( playerID )
-	Get the team of a player.
+--[[[
+	@func AIPlayerResource:GetTeam( playerID )
+	@desc Get the team of a player.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetTeam( playerID )
 	return PlayerResource:GetTeam( playerID )
 end
 
---[[
-	AIPlayerResource:GetSteamAccountID( playerID )
-	Get the steam ID of a player.
+--[[[
+	@func AIPlayerResource:GetSteamAccountID( playerID )
+	@desc Get the steam ID of a player.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetSteamAccountID( playerID )
 	return PlayerResource:GetSteamAccountID( playerID )
 end
 
---[[
-	AIPlayerResource:GetPlayerName( playerID )
-	Get the name of a player.
+--[[[
+	@func AIPlayerResource:GetPlayerName( playerID )
+	@desc Get the name of a player.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetPlayerName( playerID )
 	return PlayerResource:GetPlayerName( playerID )
 end
 
---[[
-	AIPlayerResource:GetKills( playerID )
-	Get the number of kills a player has.
+--[[[
+	@func AIPlayerResource:GetKills( playerID )
+	@desc Get the number of kills a player has.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetKills( playerID )
 	return PlayerResource:GetKills( playerID )
 end
 
---[[
-	AIPlayerResource:GetAssists( playerID )
-	Get the number of assists a player has.
+--[[[
+	@func AIPlayerResource:GetAssists( playerID )
+	@desc Get the number of assists a player has.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetAssists( playerID )
 	return PlayerResource:GetAssists( playerID )
 end
 
---[[
-	AIPlayerResource:GetDeaths( playerID )
-	Get the number of deaths a player has.
+--[[[
+	@func AIPlayerResource:GetDeaths( playerID )
+	@desc Get the number of deaths a player has.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetDeaths( playerID )
 	return PlayerResource:GetDeaths( playerID )
 end
 
---[[
-	AIPlayerResource:GetLevel( playerID )
-	Get level of a player.
+--[[[
+	@func AIPlayerResource:GetLevel( playerID )
+	@desc Get level of a player.
 	
-	Modification: -
-	Parameters: -
+	@modification -
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetLevel( playerID )
 	return PlayerResource:GetLevel( playerID )
 end
 
---[[
-	AIPlayerResource:GetGold( playerID )
-	Get the amount of gold a player has.
+--[[[
+	@func AIPlayerResource:GetGold( playerID )
+	@desc Get the amount of gold a player has.
 	
-	Modification: Only works for players on the AI's team.
-	Parameters: -
+	@modification Only works for players on the AI's team.
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetGold( playerID )
 	if PlayerResource:GetTeam( playerID ) == self.team then
@@ -128,12 +128,12 @@ function AIPlayerResource:GetGold( playerID )
 	end
 end
 
---[[
-	AIPlayerResource:GetReliableGold( playerID )
-	Get the amount of reliable gold a player has.
+--[[[
+	@func AIPlayerResource:GetReliableGold( playerID )
+	@desc Get the amount of reliable gold a player has.
 	
-	Modification: Only works for players on the AI's team.
-	Parameters: -
+	@modification Only works for players on the AI's team.
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetReliableGold( playerID )
 	if PlayerResource:GetTeam( playerID ) == self.team then
@@ -143,12 +143,12 @@ function AIPlayerResource:GetReliableGold( playerID )
 	end
 end
 
---[[
-	AIPlayerResource:GetUnreliableGold( playerID )
-	Get the amount of unreliable gold a player has.
+--[[[
+	@func AIPlayerResource:GetUnreliableGold( playerID )
+	@desc Get the amount of unreliable gold a player has.
 	
-	Modification: Only works for players on the AI's team.
-	Parameters: -
+	@modification Only works for players on the AI's team.
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetUnreliableGold( playerID )
 	if PlayerResource:GetTeam( playerID ) == self.team then
@@ -158,12 +158,12 @@ function AIPlayerResource:GetUnreliableGold( playerID )
 	end
 end
 
---[[
-	AIPlayerResource:GetLastHits( playerID )
-	Get the number of last hits a player has.
+--[[[
+	@func AIPlayerResource:GetLastHits( playerID )
+	@desc Get the number of last hits a player has.
 	
-	Modification: Only works for players on the AI's team.
-	Parameters: -
+	@modification Only works for players on the AI's team.
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetLastHits( playerID )
 	if PlayerResource:GetTeam( playerID ) == self.team then
@@ -173,12 +173,12 @@ function AIPlayerResource:GetLastHits( playerID )
 	end
 end
 
---[[
-	AIPlayerResource:GetDenies( playerID )
-	Get the number of denies a player has.
+--[[[
+	@func AIPlayerResource:GetDenies( playerID )
+	@desc Get the number of denies a player has.
 	
-	Modification: Only works for players on the AI's team.
-	Parameters: -
+	@modification Only works for players on the AI's team.
+	@param {integer} playerID The ID of the player.
 ]]
 function AIPlayerResource:GetDenies( playerID )
 	if PlayerResource:GetTeam( playerID ) == self.team then
@@ -190,23 +190,23 @@ end
 
 --Team functions
 --==============================================================================
---[[
-	AIPlayerResource:GetTeamKills( team )
-	Get the amount of kills for a team.
+--[[[
+	@func AIPlayerResource:GetTeamKills( team )
+	@desc Get the amount of kills for a team.
 	
-	Modification: -.
-	Parameters: -
+	@modification -
+	@param {integer} team The number of the team.
 ]]
 function AIPlayerResource:GetTeamKills( team )
 	return PlayerResource:GetTeamKills( team )
 end
 
---[[
-	AIPlayerResource:GetNumCouriersForTeam( team )
-	Get the amount of couriers for a team.
+--[[[
+	@func AIPlayerResource:GetNumCouriersForTeam( team )
+	@desc Get the amount of couriers for a team.
 	
-	Modification: Only works for own team.
-	Parameters: -
+	@modification Only works for own team.
+	@param {integer} team The number of the team.
 ]]
 function AIPlayerResource:GetNumCouriersForTeam( team )
 	if team == self.team then
@@ -216,11 +216,11 @@ function AIPlayerResource:GetNumCouriersForTeam( team )
 	end
 end
 
---[[
-	AIPlayerResource:GetNthCourierForTeam( courierIndex, team )
-	Get the n-th courier for a team.
+--[[[
+	@func AIPlayerResource:GetNthCourierForTeam( courierIndex, team )
+	@desc Get the n-th courier for a team.
 	
-	Modification: Only works for own team.
+	@modification Only works for own team.
 	Parameters: -
 ]]
 function AIPlayerResource:GetNthCourierForTeam( courierIndex, team )
@@ -231,45 +231,45 @@ function AIPlayerResource:GetNthCourierForTeam( courierIndex, team )
 	end
 end
 
---[[
-	AIPlayerResource:GetNthPlayerIDOnTeam( team, n )
-	Get the n-th player on a team.
+--[[[
+	@func AIPlayerResource:GetNthPlayerIDOnTeam( team, n )
+	@desc Get the n-th player on a team.
 	
-	Modification: -.
-	Parameters: -
+	@modification -
+	@param {integer} team The number of the team.
+	@param {integer} n The index of the courier to get.
 ]]
 function AIPlayerResource:GetNthPlayerIDOnTeam( team, n )
 	return PlayerResource:GetNthPlayerIDOnTeam( team, n )
 end
 
---[[
-	AIPlayerResource:GetPlayerCount()
-	Get the playercount including spectators.
+--[[[
+	@func AIPlayerResource:GetPlayerCount()
+	@desc Get the playercount including spectators.
 	
-	Modification: -.
-	Parameters: -
+	@modification -
 ]]
 function AIPlayerResource:GetPlayerCount()
 	return PlayerResource:GetPlayerCount()
 end
 
---[[
-	AIPlayerResource:GetPlayerForTeam( team )
-	Get the playercount for a team.
+--[[[
+	@func AIPlayerResource:GetPlayerForTeam( team )
+	@desc Get the playercount for a team.
 	
-	Modification: -.
-	Parameters: -
+	@modification -
+	@param {integer} team The number of the team.
 ]]
 function AIPlayerResource:GetPlayerCountForTeam( team )
 	return PlayerResource:GetPlayerCountForTeam( team )
 end
 
---[[
-	AIPlayerResource:GetTeamPlayerCount( team )
-	Get the playercount (not abandonned) for a valid team.
+--[[[
+	@func AIPlayerResource:GetTeamPlayerCount( team )
+	@desc Get the playercount (not abandonned) for a valid team.
 	
-	Modification: -.
-	Parameters: -
+	@modification -
+	@param {integer} team The number of the team.
 ]]
 function AIPlayerResource:GetTeamPlayerCount( team )
 	return PlayerResource:GetTeamPlayerCount( team )

@@ -39,24 +39,22 @@ end
 -- Define Ability functionality
 --====================================================================================================
 function AbilitySetup( ability, globalAbility, team )
-	--[[
-		ability:GetCooldown( level )
-		Get the cooldown for a certain level of the ability.
+	--[[[
+		@func ability:GetCooldown( level )
+		@desc Get the cooldown for a certain level of the ability.
 		
-		Modification: -
-		Parameters:
-			* Level - The level to query the cooldown for.
+		@modification -
+		@param {integer} Level The level to query the cooldown for.
 	]]
 	function ability:GetCooldown( level )
 		return globalAbility:GetCooldown( level )
 	end
 
-	--[[
-		ability:GetCooldownTime()
-		Get the cooldown time for the current level of the ability.
+	--[[[
+		@func ability:GetCooldownTime()
+		@desc Get the cooldown time for the current level of the ability.
 		
-		Modification: Only returns times for abilities of teammates, 0 otherwise.
-		Parameters: -
+		@modification Only returns times for abilities of teammates, 0 otherwise.
 	]]
 	function ability:GetCooldownTime()
 		if OwnedByAlly( globalAbility, team ) then
@@ -66,12 +64,11 @@ function AbilitySetup( ability, globalAbility, team )
 		end
 	end
 
-	--[[
-		ability:GetCooldownTimeRemaining()
-		Get the remaining cooldown time for the ability.
+	--[[[
+		@func ability:GetCooldownTimeRemaining()
+		@desc Get the remaining cooldown time for the ability.
 		
-		Modification: Only returns times for abilities of teammates, 0 otherwise.
-		Parameters: -
+		@modification Only returns times for abilities of teammates, 0 otherwise.
 	]]
 	function ability:GetCooldownTimeRemaining()
 		if OwnedByAlly( globalAbility, team ) then
@@ -81,89 +78,81 @@ function AbilitySetup( ability, globalAbility, team )
 		end
 	end
 
-	--[[
-		ability:GetAbilityName()
-		Get the name of the ability.
+	--[[[
+		@func ability:GetAbilityName()
+		@desc Get the name of the ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetAbilityName()
 		return globalAbility:GetAbilityName()
 	end
 
-	--[[
-		ability:GetAbilityType()
-		Get the type of the ability.
+	--[[[
+		@func ability:GetAbilityType()
+		@desc Get the type of the ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetAbilityType()
 		return globalAbility:GetAbilityType()
 	end
 
-	--[[
-		ability:GetAbilityDamage()
-		Get the damage an ability does.
+	--[[[
+		@func ability:GetAbilityDamage()
+		@desc Get the damage an ability does.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetAbilityDamage()
 		return globalAbility:GetAbilityDamage()
 	end
 
-	--[[
-		ability:GetAbilityDamageType()
-		Get the type of damage an ability does.
+	--[[[
+		@func ability:GetAbilityDamageType()
+		@desc Get the type of damage an ability does.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetAbilityDamageType()
 		return globalAbility:GetAbilityDamageType()
 	end
 
-	--[[
-		ability:GetAbilityTargetFlags()
-		Get the target flags of an ability.
+	--[[[
+		@func ability:GetAbilityTargetFlags()
+		@desc Get the target flags of an ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetAbilityTargetFlags()
 		return globalAbility:GetAbilityTargetFlags()
 	end
 
-	--[[
-		ability:GetAbilityTargetTeam()
-		Get the target team of an ability.
+	--[[[
+		@func ability:GetAbilityTargetTeam()
+		@desc Get the target team of an ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetAbilityTargetTeam()
 		return globalAbility:GetAbilityTargetTeam()
 	end
 
-	--[[
-		ability:GetAbilityTargetType()
-		Get the target type of an ability.
+	--[[[
+		@func ability:GetAbilityTargetType()
+		@desc Get the target type of an ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetAbilityTargetType()
 		return globalAbility:GetAbilityTargetType()
 	end
 
-	--[[
-		ability:GetAutoCastState()
-		Get the auto-cast state (enabled/disabled) of the ability.
+	--[[[
+		@func ability:GetAutoCastState()
+		@desc Get the auto-cast state (enabled/disabled) of the ability.
 		
-		Modification: Only works for allied units, false otherwise.
-		Parameters: -
+		@modification Only works for allied units, false otherwise.
 	]]
 	function ability:GetAutoCastState()
 		if OwnedByAlly( ability, team ) then
@@ -173,34 +162,31 @@ function AbilitySetup( ability, globalAbility, team )
 		end
 	end
 
-	--[[
-		ability:GetBackswingTime()
-		Get the backswing time of an ability.
+	--[[[
+		@func ability:GetBackswingTime()
+		@desc Get the backswing time of an ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetBackswingTime()
 		return globalAbility:GetBackswingTime()
 	end
 
-	--[[
-		ability:GetCastPoint()
-		Get the cast point of an ability.
+	--[[[
+		@func ability:GetCastPoint()
+		@desc Get the cast point of an ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetCastPoint()
 		return globalAbility:GetCastPoint()
 	end
 
-	--[[
-		ability:GetAbilityIndex()
-		Get the index of the ability on the unit.
+	--[[[
+		@func ability:GetAbilityIndex()
+		@desc Get the index of the ability on the unit.
 		
-		Modification: Only works in vision
-		Parameters: -
+		@modification Only works in vision
 	]]
 	function ability:GetAbilityIndex()
 		if InVision( globalAbility:GetCaster(), team ) then
@@ -210,34 +196,31 @@ function AbilitySetup( ability, globalAbility, team )
 		end
 	end
 
-	--[[
-		ability:GetChannelledManaCostPerSecond( level )
-		Get manacost per second during channel for some level of the ability.
+	--[[[
+		@func ability:GetChannelledManaCostPerSecond( level )
+		@desc Get manacost per second during channel for some level of the ability.
 		
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:GetChannelledManaCostPerSecond( level )
 		return globalAbility:GetChannelledManaCostPerSecond( level )
 	end
 
-	--[[
-		ability:IsItem()
-		Return if the ability is an item or not.
+	--[[[
+		@func ability:IsItem()
+		@desc Return if the ability is an item or not.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
 	function ability:IsItem()
 		return globalAbility:IsItem()
 	end
 
-	--[[
-		ability:GetCurrentCharges()
-		Get the current amount of charges on an item.
+	--[[[
+		@func ability:GetCurrentCharges()
+		@desc Get the current amount of charges on an item.
 
-		Modification: Only works if the owner is in vision.
-		Parameters: -
+		@modification Only works if the owner is in vision.
 	]]
 	function ability:GetCurrentCharges()
 		if InVision( globalAbility:GetCaster(), team ) then
@@ -249,47 +232,43 @@ function AbilitySetup( ability, globalAbility, team )
 
 	--Entity functions
 	--==========================================================================
-	--[[
-		entity:GetClassname()
-		Get the classname of the entity.
+	--[[[
+		@func entity:GetClassname()
+		@desc Get the classname of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
-	function ability:GetClassname()
-		return globalAbility:GetClassname()
+	function unit:GetClassname()
+		return globalUnit:GetClassname()
 	end
 
-	--[[
-		entity:GetEntityHandle()
-		Get the entity handle of the entity.
+	--[[[
+		@func entity:GetEntityHandle()
+		@desc Get the entity handle of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
-	function ability:GetEntityHandle()
-		return globalAbility:GetEntityHandle()
+	function unit:GetEntityHandle()
+		return globalUnit:GetEntityHandle()
 	end
 
-	--[[
-		entity:GetEntityIndex()
-		Get the entity index of the entity.
+	--[[[
+		@func entity:GetEntityIndex()
+		@desc Get the entity index of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
-	function ability:GetEntityIndex()
-		return globalAbility:GetEntityIndex()
+	function unit:GetEntityIndex()
+		return globalUnit:GetEntityIndex()
 	end
 
-	--[[
-		entity:GetName()
-		Get the name of the entity.
+	--[[[
+		@func entity:GetName()
+		@desc Get the name of the entity.
 
-		Modification: -
-		Parameters: -
+		@modification -
 	]]
-	function ability:GetName()
-		return globalAbility:GetName()
+	function unit:GetName()
+		return globalUnit:GetName()
 	end
 end
