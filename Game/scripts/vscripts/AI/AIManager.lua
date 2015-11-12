@@ -7,6 +7,13 @@
 	Date: October, 2015
 ]]
 
+require( 'AI.AIWrapper' )
+require( 'AI.AIEvents' )
+require( 'AI.AIPlayerResource' )
+require( 'AI.UnitWrapper' )
+require( 'AI.AbilityWrapper' )
+require( 'AI.AIUnitTests' )
+
 if AIManager == nil then
 	AIManager = class({})
 else

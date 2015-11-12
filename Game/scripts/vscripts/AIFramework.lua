@@ -11,12 +11,6 @@
 
 --Include AI
 require( 'AI.AIManager' )
-require( 'AI.AIWrapper' )
-require( 'AI.AIEvents' )
-require( 'AI.AIPlayerResource' )
-require( 'AI.UnitWrapper' )
-require( 'AI.AbilityWrapper' )
-require( 'AI.AIUnitTests' )
 
 --Require game mode logic
 require( 'AIGameModes.BaseAIGameMode' )
