@@ -238,8 +238,8 @@ function AbilitySetup( ability, globalAbility, team )
 
 		@modification -
 	]]
-	function unit:GetClassname()
-		return globalUnit:GetClassname()
+	function ability:GetClassname()
+		return globalAbility:GetClassname()
 	end
 
 	--[[[
@@ -248,8 +248,8 @@ function AbilitySetup( ability, globalAbility, team )
 
 		@modification -
 	]]
-	function unit:GetEntityHandle()
-		return globalUnit:GetEntityHandle()
+	function ability:GetEntityHandle()
+		return globalAbility:GetEntityHandle()
 	end
 
 	--[[[
@@ -258,8 +258,8 @@ function AbilitySetup( ability, globalAbility, team )
 
 		@modification -
 	]]
-	function unit:GetEntityIndex()
-		return globalUnit:GetEntityIndex()
+	function ability:GetEntityIndex()
+		return globalAbility:GetEntityIndex()
 	end
 
 	--[[[
@@ -268,7 +268,7 @@ function AbilitySetup( ability, globalAbility, team )
 
 		@modification -
 	]]
-	function unit:GetName()
-		return globalUnit:GetName()
+	function ability:GetName()
+		return globalAbility:GetName()
 	end
 end

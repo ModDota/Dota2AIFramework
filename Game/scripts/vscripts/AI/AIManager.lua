@@ -47,7 +47,7 @@ function AIManager:Init()
 	--Update the settings when an event from the client is received
 	CustomGameEventManager:RegisterListener( 'spectator_options_update', function( player, event )
 		AIManager.AllowInGameLogging = event.allowLog == 1
-		if event.allowDraw == false and AIManager.AllowDebugDrawing == 1 then
+		if event.allowDraw == 0 and AIManager.AllowDebugDrawing == 1 then
 			DebugDrawClear()
 		end
 		AIManager.AllowDebugDrawing = event.allowDraw == 1
@@ -226,6 +226,8 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	global.type = type
 	global.string = string
 	global._G = global
+	global.pcall = pcall
+	global.debug = debug
 
 	--Enable the require function, but only for the sandboxed environment
 	global.require = function( filename )
@@ -243,8 +245,6 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	global.Warning = Warning
 	global.AIUnitTests = AIUnitTests
 	global.class = class
-	global.pcall = pcall
-	global.debug = debug
 
 	--Enable the LoadKeyValues function but set the AI directory as root
 	global.LoadKeyValues = function( path )

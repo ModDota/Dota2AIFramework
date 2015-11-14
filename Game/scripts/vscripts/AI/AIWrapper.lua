@@ -53,7 +53,7 @@ end
 	@param {integer} Order The order to return results in.
 	@param {boolean} CanGrowCache Can the search grow the cache.
 ]]
-function AIWrapper:AI_FindUnitsInRadius( position, cacheUnit, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
+function AIWrapper:AI_FindUnitsInRadius( position, radius, teamFilter, typeFilter, flagFilter, order, canGrowCache )
 
 	--Add DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE to the flagFilter
 	flagFilter = bit.bor( flagFilter, DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE )
