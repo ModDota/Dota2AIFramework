@@ -1,6 +1,8 @@
 # DotA 2 AI Competition Framework
 The purpose of this framework is to provide a platform for AI competitions in DotA 2. It handles AI setup as well as wrapping the regular DotA 2 lua API to prevent AI scripts from accessing data or performing actions, to emulate the AI playing as a human player.
 
+[Preview Video](https://www.youtube.com/watch?v=lKfmYQgBC8o)
+
 ### Goals of the framework:
 + Encourage the development of Lua AI for dota custom games.
 + Provide a starting point for developers that want AI in their games.
