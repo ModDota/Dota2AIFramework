@@ -179,6 +179,10 @@ function AIWrapper:AI_BuyItem( unit, itemName )
 	local orgUnit = EntIndexToHScript( unit:GetEntityIndex() )
 	local cost = GetItemCost( itemName )
 
+	--[[for k,v in pairs( Entities:FindAllByClassname( 'trigger_shop' ) ) do
+		--Do checks to see which shop can be bought from
+	end]]
+
 	local hasSpace = false
 	for i=0,11 do
 		local item = orgUnit:GetItemInSlot( i )
