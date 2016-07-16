@@ -22,7 +22,7 @@ end
 
 --Initialise the AIManager
 function AIManager:Init()
-	ListenToGameEvent( 'player_connect', AIManager.OnPlayerConnect, self )
+	ListenToGameEvent( 'dota_player_pick_hero', AIManager.OnPlayerConnect, self )
 	ListenToGameEvent( 'game_rules_state_change', AIManager.OnGameStateChange, self )
 
 	AIManager.visionDummies = {}
@@ -81,23 +81,30 @@ end
 
 --A player has connected, if it's a fake client assign it to an AI that wants a player
 function AIManager:OnPlayerConnect( event )
-	--Handle player request
-	local request = table.remove( AIManager.playerRequests, 1 )
-	
-	if request ~= nil then
-		PlayerResource:SetCustomTeamAssignment( event.index, request.team )
+	--Only bots pick heroes in setup
+	if GameRules:State_Get() == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+		--Handle player request
+		local request = table.remove( AIManager.playerRequests, 1 )
 
-		--Remember we have to spawn a hero for this player
-		AIManager.heroesToSpawn = AIManager.heroesToSpawn + 1
+		if request ~= nil then
+			local hero = EntIndexToHScript( event.heroindex )
+			local pID = hero:GetPlayerOwnerID()
 
-		if AIManager.aiPlayers[ request.team ] == nil then 
-			AIManager.aiPlayers[ request.team ] = {} 
+			-- Set team
+			PlayerResource:SetCustomTeamAssignment( pID, request.team )
 
-			--Initialise array for heroes for this team too while we're at it
-			AIManager.aiHeroes[ request.team ] = {} 
+			--Remember we have to spawn a hero for this player
+			AIManager.heroesToSpawn = AIManager.heroesToSpawn + 1
+
+			if AIManager.aiPlayers[ request.team ] == nil then 
+				AIManager.aiPlayers[ request.team ] = {} 
+
+				--Initialise array for heroes for this team too while we're at it
+				AIManager.aiHeroes[ request.team ] = {} 
+			end
+
+			table.insert( AIManager.aiPlayers[ request.team ], { pID = pID, hero = request.hero } )
 		end
-
-		table.insert( AIManager.aiPlayers[ request.team ], { pID = event.index, hero = request.hero } )
 	end
 end
 
@@ -122,7 +129,9 @@ end
 function AIManager:PrecacheDone( pID, heroName, team )
 	--Spawn the hero
 	local player = PlayerResource:GetPlayer( pID )
-	local hero = CreateHeroForPlayer( heroName, player )
+	local oldHero = PlayerResource:GetSelectedHeroEntity( pID )
+	local hero = PlayerResource:ReplaceHeroWith( pID, heroName, 0, 0 )
+	hero:RespawnHero(false, true, false)
 
 	table.insert( AIManager.aiHeroes[ team ], hero )
 end
@@ -188,10 +197,10 @@ function AIManager:AddAI( name, team, heroes )
 	--Request heroes
 	for i, hero in ipairs( heroes ) do
 		table.insert( AIManager.playerRequests, { team = team, hero = hero } )
+		Tutorial:AddBot( hero, '', '', false )
 	end
 
 	AIManager.numPlayers = AIManager.numPlayers + #heroes
-	SendToServerConsole( 'dota_create_fake_clients '..AIManager.numPlayers )
 
 	return ai
 end
