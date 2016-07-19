@@ -135,8 +135,6 @@ function AIWrapper:AI_ExecuteOrderFromTable( table )
 		return
 	end
 
-	unit:SetControllableByPlayer( -1, true )
-
 	--[[Verity the target is not in fog if it is set
 	if table.TargetIndex ~= nil and InVision( EntIndexToHScript( table.TargetIndex ), self.team ) == false then
 		Warning( string.format( 'AI %i tried to execute order with illegal target.', self.team ) )
@@ -179,24 +177,36 @@ function AIWrapper:AI_BuyItem( unit, itemName )
 	local orgUnit = EntIndexToHScript( unit:GetEntityIndex() )
 	local cost = GetItemCost( itemName )
 
-	--[[for k,v in pairs( Entities:FindAllByClassname( 'trigger_shop' ) ) do
-		--Do checks to see which shop can be bought from
-	end]]
+	-- Check if unit is in shop trigger
+	local inTrigger = false
+	local unitPos = orgUnit:GetAbsOrigin()
+	for _, trigger in pairs( Entities:FindAllByClassname( 'trigger_shop' ) ) do
+		local maxs = trigger:GetBoundingMaxs() + trigger:GetAbsOrigin()
+		local mins = trigger:GetBoundingMins() + trigger:GetAbsOrigin()
 
-	local hasSpace = false
-	for i=0,11 do
-		local item = orgUnit:GetItemInSlot( i )
-		if item == nil then
-			hasSpace = true
+		if unitPos.x >= mins.x and unitPos.y >= mins.y and unitPos.x <= maxs.x and unitPos.y <= maxs.y then
+			inTrigger = true
 			break
 		end
 	end
+	print(inTrigger)
 
-	if orgUnit:GetGold() >= cost and hasSpace then
-		orgUnit:ModifyGold( -cost, false, DOTA_ModifyGold_PurchaseItem )
-		local item = CreateItem( itemName, orgUnit, orgUnit )
-		orgUnit:AddItem( item )
-	end	
+	if inTrigger then
+		local hasSpace = false
+		for i=0,11 do
+			local item = orgUnit:GetItemInSlot( i )
+			if item == nil then
+				hasSpace = true
+				break
+			end
+		end
+
+		if orgUnit:GetGold() >= cost and hasSpace then
+			orgUnit:ModifyGold( -cost, false, DOTA_ModifyGold_PurchaseItem )
+			local item = CreateItem( itemName, orgUnit, orgUnit )
+			orgUnit:AddItem( item )
+		end
+	end
 end
 
 --[[[

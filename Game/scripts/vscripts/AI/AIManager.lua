@@ -129,7 +129,6 @@ end
 function AIManager:PrecacheDone( pID, heroName, team )
 	--Spawn the hero
 	local player = PlayerResource:GetPlayer( pID )
-	local oldHero = PlayerResource:GetSelectedHeroEntity( pID )
 	local hero = PlayerResource:ReplaceHeroWith( pID, heroName, 0, 0 )
 	hero:RespawnHero(false, true, false)
 
@@ -258,13 +257,6 @@ function AIManager:PopulateAIGlobals( name, global, wrapper )
 	--Enable the LoadKeyValues function but set the AI directory as root
 	global.LoadKeyValues = function( path )
 		return LoadKeyValues( 'scripts/vscripts/AI/UserAI/'..name..'/'..path )
-	end
-
-	--Get the ID of an item by name
-	global.GetItemID = function( name )
-		if AIManager.itemTable[ name ] ~= nil then
-			return AIManager.itemTable[ name ].ID
-		end
 	end
 
 	--Default Dota global functions
