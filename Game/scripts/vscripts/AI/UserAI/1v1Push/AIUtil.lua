@@ -4,13 +4,13 @@ end
 
 function FindCreeps( position, radius, team, order )
 	return AI_FindUnitsInRadius( position, radius, team,
-		DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_MECHANICAL, DOTA_UNIT_TARGET_FLAG_NONE, 
+		DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, 
 		order, false )
 end
 
 function FindTargets( position, radius, team, order )
 	return AI_FindUnitsInRadius( position, radius, team,
-		DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_MECHANICAL + DOTA_UNIT_TARGET_BUILDING + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, 
+		DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_BUILDING + DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, 
 		order, false )
 end
 
@@ -92,12 +92,6 @@ end
 
 function UnitBuyItem( unit, itemName )
 	AI_BuyItem( unit, itemName )
-	--[[local itemID = GetItemID( itemName )
-	AI_ExecuteOrderFromTable({
-		UnitIndex = unit:GetEntityIndex(),
-		OrderType = DOTA_UNIT_ORDER_PURCHASE_ITEM,
-		AbilityIndex = itemID
-	})]]
 end
 
 function TryAndReport( f, context )
