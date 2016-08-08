@@ -41,6 +41,14 @@ function AIFramework:Init()
 	ListenToGameEvent( 'game_rules_state_change', Dynamic_Wrap( AIFramework, 'OnGameStateChange' ), self )
 	CustomGameEventManager:RegisterListener( 'spawn_ai', function(...) self:SpawnAI(...) end )
 
+	--Read in gamemode config
+	self.config = LoadKeyValues("scripts/config/gamemode_ai.kv")
+	--Send gamemode info to nettable for UI
+	local nettable = {}
+	for _, gamemode in pairs(self.config) do
+		table.insert(nettable, {name = gamemode.Name, name, AI = gamemode.AI})
+	end
+	CustomNetTables:SetTableValue("config", "gamemodes", nettable)
 end
 
 --player_connect_full event handler
@@ -71,7 +79,7 @@ function AIFramework:OnGameLoaded()
 			AIManager:InitAllAI( self.gameMode )
 
 			--Initialise gamemode
-			self.gameMode:OnGameStart( AIManager:GetAllAIHeroes() )
+			self.gameMode:OnGameStart( AIManager:GetAllHeroes() )
 
 			return nil
 		end
@@ -83,7 +91,8 @@ end
 
 function AIFramework:SpawnAI( source, args )
 	--Load gamemode
-	local gameMode = require( 'AIGameModes.'..args.game_mode )
+	local modeConfig = self.config[args.game_mode]
+	local gameMode = require( 'AIGameModes.'..modeConfig.Path )
 
 	--Set up the game mode
 	gameMode:Setup()
@@ -95,8 +104,12 @@ function AIFramework:SpawnAI( source, args )
 	end
 
 	--Load in AI
-	AIManager:AddAI( args.ai1, DOTA_TEAM_GOODGUYS, heroes )
-	AIManager:AddAI( args.ai2, DOTA_TEAM_BADGUYS, heroes )
+	if args.ai1 ~= "0" and args.ai1 ~= 0 then
+		AIManager:AddAI( modeConfig.AI[args.ai1], DOTA_TEAM_GOODGUYS, heroes )
+	end
+	if args.ai2 ~= "0" and args.ai2 ~= 0 then
+		AIManager:AddAI( modeConfig.AI[args.ai2], DOTA_TEAM_BADGUYS, heroes )
+	end
 
 	--Save gamemode for later
 	self.gameMode = gameMode

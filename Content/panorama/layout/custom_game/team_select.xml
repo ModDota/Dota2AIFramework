@@ -11,10 +11,42 @@
 	</scripts>
 
 	<script>
-		var selectedMode = "FarmOptimizer";
+		var config = {};
+		var selectedMode = "0";
 
 		function OnGameModeUpdate() {
 			selectedMode = $('#GameModeDD').GetSelected().id;
+			SetAIDropdowns(selectedMode);			
+		}
+
+		function SetAIDropdowns(key) {
+			var mode = config[key];
+
+			//Populate AI boxes
+			$('#AIDropdown1').RemoveAllOptions();
+			$('#AIDropdown2').RemoveAllOptions();
+
+			var label1 = $.CreatePanel( 'Label', $('#AIDropdown1'), "0");
+			var label2 = $.CreatePanel( 'Label', $('#AIDropdown2'), "0");
+			label1.text = "None";
+			label2.text = "None";
+
+			$('#AIDropdown1').AddOption(label1);
+			$('#AIDropdown2').AddOption(label2);
+
+			for (var key in mode.AI) {
+				var ai = mode.AI[key];
+				var label1 = $.CreatePanel( 'Label', $('#AIDropdown1'), key);
+				var label2 = $.CreatePanel( 'Label', $('#AIDropdown2'), key);
+				label1.text = ai;
+				label2.text = ai;
+
+				$('#AIDropdown1').AddOption(label1);
+				$('#AIDropdown2').AddOption(label2);
+			}
+
+			$('#AIDropdown1').SetSelected( $('#AIDropdown1').FindDropDownMenuChild( 0 ) );
+			$('#AIDropdown2').SetSelected( $('#AIDropdown2').FindDropDownMenuChild( 0 ) );
 		}
 
 		function OnSpawnAI() {
@@ -27,20 +59,23 @@
 		}
 
 		(function() {
-			var ai_info = GameUI.CustomUIConfig().AI_Info;
+			config = CustomNetTables.GetTableValue("config", "gamemodes");
+			$("#GameModeDD").RemoveAllOptions();
 
-			for ( var ai_name in ai_info ) {
-				var ai = ai_info[ ai_name ];
-				var label = $.CreatePanel( 'Label', $('#AIDropdown1'), ai_name );
-				var label2 = $.CreatePanel( 'Label', $('#AIDropdown2'), ai_name );
-				label.text = ai.name;
-				label2.text = ai.name;
-				$('#AIDropdown1').AddOption( label );
-				$('#AIDropdown2').AddOption( label2 );
+			var first = -1;
+
+			for ( var key in config ) {
+				if (first == -1) first = key;
+				var gamemode = config[key];
+				var label = $.CreatePanel( 'Label', $("#GameModeDD"), key);
+				label.text = gamemode.name;
+				label.data = gamemode;
+				$("#GameModeDD").AddOption(label);
 			}
 
-			$('#AIDropdown1').SetSelected( $('#AIDropdown1').FindDropDownMenuChild( 0 ) );
-			$('#AIDropdown2').SetSelected( $('#AIDropdown2').FindDropDownMenuChild( 0 ) );
+			selectedMode = first;
+			SetAIDropdowns(first);
+			$("#GameModeDD").SetSelected($("#GameModeDD").FindDropDownMenuChild(0));
 		})();
 	</script>
 
@@ -50,17 +85,17 @@
 
 			<Label text='Game mode:' />
 			<DropDown class='GameModeDropDown' id='GameModeDD' oninputsubmit='OnGameModeUpdate()'>
-				<Label text="Farm Optimizer" id="FarmOptimizer"/>
-				<Label text="1v1 Mid" id="1v1Mid"/>
 			</DropDown>
 
 			<Panel class='AISelection'>
 				<Label class='AISelectionLabel' text='AI 1                                   AI 2' />
 				<Panel class='AIDropdownContainer'>
 					<DropDown id='AIDropdown1' class='AIDropdown' >
+						<Label text="None" id="None"/>
 					</DropDown>
 
 					<DropDown id='AIDropdown2' class='AIDropdown' >
+						<Label text="None" id="None"/>
 					</DropDown>
 				</Panel>
 			</Panel>

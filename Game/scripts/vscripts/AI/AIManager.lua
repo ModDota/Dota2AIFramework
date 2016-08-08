@@ -166,6 +166,21 @@ function AIManager:GetAllAIHeroes()
 	return AIManager.aiHeroes
 end
 
+--Get all heroes
+function AIManager:GetAllHeroes()
+	local heroes = {}
+	local heroList = HeroList:GetAllHeroes()
+	for _, hero in pairs(heroList) do
+		if heroes[hero:GetTeam()] == nil then
+			heroes[hero:GetTeam()] = {}
+		end
+
+		table.insert(heroes[hero:GetTeam()], hero)
+	end
+
+	return heroes
+end
+
 --Get all heroes belonging to an AI team
 function AIManager:GetAIHeroes( team )
 	return AIManager.aiHeroes[ team ]

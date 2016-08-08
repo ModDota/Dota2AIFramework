@@ -456,6 +456,16 @@ function UnitSetup( unit, globalUnit, team )
 		end
 	end
 
+	--[[[
+		@func unit:GetUnitName()
+		@desc Get the name of the unit.
+
+		@modification -
+	]]
+	function unit:GetUnitName()
+		return globalUnit:GetUnitName()
+	end
+
 	--Entity functions
 	--==========================================================================
 
