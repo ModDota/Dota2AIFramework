@@ -10,10 +10,10 @@ The purpose of this framework is to provide a platform for AI competitions in Do
 
 ## Challenges
 Different challenges will drive development in different directions. Therefore the AI framework provides different challenges for AI to deal with. The challenges currently supported are:
-* Farm Optimisation - Multiple AI farm on separate parts of the map, that are set up identically. The goal for each AI is to use that part of the map as efficient as as possible, to farm as much gold as possible within a set duration.
 * 1v1 Mid - Two AI face off 1v1 mid on identical heroes on the default dota map. The first AI to kill a tower or get two kills on the other AI wins.
 
 Possible future challenges are:
+* Farm optimization challenge
 * Three versus three mid and jungle.
 * 1v1v1v1
 * Last hit challenge
